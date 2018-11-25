@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<board>
+	<space type="go"></space>
+	<space type="chest"></space>
+	<space type="land">
+		<name>Libya</name>
+		<group>#3E1C63</group>
+		<purchasePrice>50</purchasePrice>
+		<upgradePrice>50</upgradePrice>
+		<toll>
+			<lvl0>5</lvl0>
+			<lvl1>18</lvl1>
+			<lvl2>30</lvl2>
+			<lvl3>90</lvl3>
+			<lvl4>160</lvl4>
+			<lvl5>250</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Sudan</name>
+		<group>#3E1C63</group>
+		<purchasePrice>60</purchasePrice>
+		<upgradePrice>50</upgradePrice>
+		<toll>
+			<lvl0>10</lvl0>
+			<lvl1>30</lvl1>
+			<lvl2>60</lvl2>
+			<lvl3>180</lvl3>
+			<lvl4>320</lvl4>
+			<lvl5>450</lvl5>
+		</toll>
+	</space>
+	<space type="spinner"></space>
+	<space type="railroad">
+		<name>Japan Station</name>
+		<purchasePrice>200</purchasePrice>
+		<initialToll>25</initialToll>
+	</space>
+	<space type="chance"></space>
+	<space type="land">
+		<name>Turkey</name>
+		<group>#59482F</group>
+		<purchasePrice>100</purchasePrice>
+		<upgradePrice>50</upgradePrice>
+		<toll>
+			<lvl0>10</lvl0>
+			<lvl1>40</lvl1>
+			<lvl2>90</lvl2>
+			<lvl3>270</lvl3>
+			<lvl4>400</lvl4>
+			<lvl5>550</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Greece</name>
+		<group>#59482F</group>
+		<purchasePrice>100</purchasePrice>
+		<upgradePrice>50</upgradePrice>
+		<toll>
+			<lvl0>10</lvl0>
+			<lvl1>40</lvl1>
+			<lvl2>90</lvl2>
+			<lvl3>270</lvl3>
+			<lvl4>400</lvl4>
+			<lvl5>550</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Bulgaria</name>
+		<group>#59482F</group>
+		<purchasePrice>120</purchasePrice>
+		<upgradePrice>50</upgradePrice>
+		<toll>
+			<lvl0>16</lvl0>
+			<lvl1>50</lvl1>
+			<lvl2>100</lvl2>
+			<lvl3>300</lvl3>
+			<lvl4>450</lvl4>
+			<lvl5>600</lvl5>
+		</toll>
+	</space>
+	<space type="jail"></space>
+	<space type="land">
+		<name>Poland</name>
+		<group>#3DE9F2</group>
+		<purchasePrice>150</purchasePrice>
+		<upgradePrice>100</upgradePrice>
+		<toll>
+			<lvl0>16</lvl0>
+			<lvl1>50</lvl1>
+			<lvl2>150</lvl2>
+			<lvl3>450</lvl3>
+			<lvl4>625</lvl4>
+			<lvl5>750</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Russia</name>
+		<group>#3DE9F2</group>
+		<purchasePrice>150</purchasePrice>
+		<upgradePrice>100</upgradePrice>
+		<toll>
+			<lvl0>16</lvl0>
+			<lvl1>50</lvl1>
+			<lvl2>150</lvl2>
+			<lvl3>450</lvl3>
+			<lvl4>625</lvl4>
+			<lvl5>750</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Ukraine</name>
+		<group>#3DE9F2</group>
+		<purchasePrice>180</purchasePrice>
+		<upgradePrice>100</upgradePrice>
+		<toll>
+			<lvl0>20</lvl0>
+			<lvl1>60</lvl1>
+			<lvl2>180</lvl2>
+			<lvl3>500</lvl3>
+			<lvl4>700</lvl4>
+			<lvl5>900</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Vatican</name>
+		<group>#FFFFFF</group>
+		<purchasePrice>0</purchasePrice>
+		<upgradePrice>100</upgradePrice>
+		<toll>
+			<lvl0>22</lvl0>
+			<lvl1>44</lvl1>
+			<lvl2>88</lvl2>
+			<lvl3>555</lvl3>
+			<lvl4>666</lvl4>
+			<lvl5>777</lvl5>
+		</toll>
+	</space>
+	<space type="railroad">
+		<name>Spain Station</name>
+		<purchasePrice>200</purchasePrice>
+		<initialToll>25</initialToll>
+	</space>
+	<space type="chest"></space>
+	<space type="land">
+		<name>Lithuania</name>
+		<group>#1CB81A</group>
+		<purchasePrice>200</purchasePrice>
+		<upgradePrice>100</upgradePrice>
+		<toll>
+			<lvl0>20</lvl0>
+			<lvl1>70</lvl1>
+			<lvl2>200</lvl2>
+			<lvl3>550</lvl3>
+			<lvl4>750</lvl4>
+			<lvl5>950</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Latvia</name>
+		<group>#1CB81A</group>
+		<purchasePrice>200</purchasePrice>
+		<upgradePrice>100</upgradePrice>
+		<toll>
+			<lvl0>20</lvl0>
+			<lvl1>70</lvl1>
+			<lvl2>200</lvl2>
+			<lvl3>550</lvl3>
+			<lvl4>750</lvl4>
+			<lvl5>950</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Estonia</name>
+		<group>#1CB81A</group>
+		<purchasePrice>220</purchasePrice>
+		<upgradePrice>100</upgradePrice>
+		<toll>
+			<lvl0>30</lvl0>
+			<lvl1>80</lvl1>
+			<lvl2>220</lvl2>
+			<lvl3>600</lvl3>
+			<lvl4>800</lvl4>
+			<lvl5>1000</lvl5>
+		</toll>
+	</space>
+	<space type="parking"></space>
+	<space type="land">
+		<name>Norway</name>
+		<group>#E3FA4B</group>
+		<purchasePrice>220</purchasePrice>
+		<upgradePrice>150</upgradePrice>
+		<toll>
+			<lvl0>30</lvl0>
+			<lvl1>90</lvl1>
+			<lvl2>250</lvl2>
+			<lvl3>700</lvl3>
+			<lvl4>875</lvl4>
+			<lvl5>1050</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Sweden</name>
+		<group>#E3FA4B</group>
+		<purchasePrice>220</purchasePrice>
+		<upgradePrice>150</upgradePrice>
+		<toll>
+			<lvl0>30</lvl0>
+			<lvl1>90</lvl1>
+			<lvl2>250</lvl2>
+			<lvl3>700</lvl3>
+			<lvl4>875</lvl4>
+			<lvl5>1050</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Finland</name>
+		<group>#E3FA4B</group>
+		<purchasePrice>240</purchasePrice>
+		<upgradePrice>150</upgradePrice>
+		<toll>
+			<lvl0>40</lvl0>
+			<lvl1>100</lvl1>
+			<lvl2>300</lvl2>
+			<lvl3>750</lvl3>
+			<lvl4>925</lvl4>
+			<lvl5>1100</lvl5>
+		</toll>
+	</space>
+	<space type="chance"></space>
+	<space type="railroad">
+		<name>USA Station</name>
+		<purchasePrice>200</purchasePrice>
+		<initialToll>25</initialToll>		
+	</space>
+	<space type="spinner"></space>
+	<space type="land">
+		<name>Germany</name>
+		<group>#FA4BE3</group>
+		<purchasePrice>280</purchasePrice>
+		<upgradePrice>150</upgradePrice>
+		<toll>
+			<lvl0>40</lvl0>
+			<lvl1>110</lvl1>
+			<lvl2>330</lvl2>
+			<lvl3>800</lvl3>
+			<lvl4>975</lvl4>
+			<lvl5>1150</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>France</name>
+		<group>#FA4BE3</group>
+		<purchasePrice>280</purchasePrice>
+		<upgradePrice>150</upgradePrice>
+		<toll>
+			<lvl0>40</lvl0>
+			<lvl1>110</lvl1>
+			<lvl2>330</lvl2>
+			<lvl3>800</lvl3>
+			<lvl4>975</lvl4>
+			<lvl5>1150</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>UK</name>
+		<group>#FA4BE3</group>
+		<purchasePrice>300</purchasePrice>
+		<upgradePrice>150</upgradePrice>
+		<toll>
+			<lvl0>50</lvl0>
+			<lvl1>120</lvl1>
+			<lvl2>360</lvl2>
+			<lvl3>850</lvl3>
+			<lvl4>1025</lvl4>
+			<lvl5>1200</lvl5>
+		</toll>
+	</space>
+	<space type="gotojail"></space>
+	<space type="land">
+		<name>Canada</name>
+		<group>#F58D0F</group>
+		<purchasePrice>300</purchasePrice>
+		<upgradePrice>200</upgradePrice>
+		<toll>
+			<lvl0>50</lvl0>
+			<lvl1>130</lvl1>
+			<lvl2>390</lvl2>
+			<lvl3>900</lvl3>
+			<lvl4>1100</lvl4>
+			<lvl5>1275</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>USA</name>
+		<group>#F58D0F</group>
+		<purchasePrice>300</purchasePrice>
+		<upgradePrice>200</upgradePrice>
+		<toll>
+			<lvl0>50</lvl0>
+			<lvl1>130</lvl1>
+			<lvl2>390</lvl2>
+			<lvl3>900</lvl3>
+			<lvl4>1100</lvl4>
+			<lvl5>1275</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Mexico</name>
+		<group>#F58D0F</group>
+		<purchasePrice>320</purchasePrice>
+		<upgradePrice>200</upgradePrice>
+		<toll>
+			<lvl0>60</lvl0>
+			<lvl1>150</lvl1>
+			<lvl2>450</lvl2>
+			<lvl3>1000</lvl3>
+			<lvl4>1200</lvl4>
+			<lvl5>1400</lvl5>
+		</toll>
+	</space>
+	<space type="chest"></space>
+	<space type="railroad">
+		<name>UK Station</name>
+		<purchasePrice>200</purchasePrice>
+		<initialToll>25</initialToll>
+	</space>
+	<space type="chance"></space>
+	<space type="land">
+		<name>Dubai</name>
+		<group>#F5390F</group>
+		<purchasePrice>360</purchasePrice>
+		<upgradePrice>200</upgradePrice>
+		<toll>
+			<lvl0>60</lvl0>
+			<lvl1>175</lvl1>
+			<lvl2>500</lvl2>
+			<lvl3>1100</lvl3>
+			<lvl4>1300</lvl4>
+			<lvl5>1500</lvl5>
+		</toll>
+	</space>
+	<space type="land">
+		<name>Hawaii</name>
+		<group>#F5390F</group>
+		<purchasePrice>400</purchasePrice>
+		<upgradePrice>200</upgradePrice>
+		<toll>
+			<lvl0>80</lvl0>
+			<lvl1>200</lvl1>
+			<lvl2>600</lvl2>
+			<lvl3>1400</lvl3>
+			<lvl4>1700</lvl4>
+			<lvl5>2000</lvl5>
+		</toll>
+	</space>
+	<space type="parkingfee">
+		<fee>100</fee>
+	</space>
+</board>

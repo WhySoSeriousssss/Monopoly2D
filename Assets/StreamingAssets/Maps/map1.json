@@ -1,0 +1,228 @@
+{
+	"map": [
+    {
+      "type": "start",
+      "content": {
+          
+      }
+		},
+		{
+			"type": "chest"
+		},
+		{
+			"type": "property",
+			"name": "Libya",
+			"buyPrice": 50,
+			"upgradePrice": 50,
+			"group": "blue"
+		},
+    {
+      "type": "property",
+      "name": "Sudan",
+      "buyPrice": 50,
+      "upgradePrice": 50,
+      "group": "blue"
+    },
+		{
+			"type": "spin"
+		},
+		{
+      "type": "station",
+      "name": "Japan Station",
+      "buyPrice": 200
+		},
+		{
+			"type": "chance"
+		},
+    {
+      "type": "property",
+      "name": "Turkey",
+      "buyPrice": 100,
+      "upgradePrice": 100,
+      "group": "brown"
+    },
+    {
+      "type": "property",
+      "name": "Greece",
+      "buyPrice": 100,
+      "upgradePrice": 100,
+      "group": "brown"
+    },
+    {
+      "type": "property",
+      "name": "Bulgaria",
+      "buyPrice": 120,
+      "upgradePrice": 100,
+      "group": "brown"
+    },
+		{
+			"type": "jail"
+		},
+    {
+      "type": "property",
+      "name": "Poland",
+      "buyPrice": 150,
+      "upgradePrice": 100,
+      "group": "cyan"
+    },
+    {
+      "type": "property",
+      "name": "Russia",
+      "buyPrice": 150,
+      "upgradePrice": 100,
+      "group": "cyan"
+    },
+    {
+      "type": "property",
+      "name": "Ukraine",
+      "buyPrice": 180,
+      "upgradePrice": 100,
+      "group": "cyan"
+    },
+    {
+      "type": "property",
+      "name": "Vatican",
+      "buyPrice": 0,
+      "upgradePrice": 100,
+      "group": "white"
+    },
+    {
+      "type": "station",
+      "name": "Spain Station",
+      "buyPrice": 200
+    },
+		{
+			"type": "chest"
+		},
+    {
+      "type": "property",
+      "name": "Lithuania",
+      "buyPrice": 200,
+      "upgradePrice": 150,
+      "group": "green"
+    },
+    {
+      "type": "property",
+      "name": "Latvia",
+      "buyPrice": 200,
+      "upgradePrice": 150,
+      "group": "green"
+    },
+    {
+      "type": "property",
+      "name": "Estonia",
+      "buyPrice": 220,
+      "upgradePrice": 150,
+      "group": "green"
+    },
+		{
+			"type": "parking"
+		},
+    {
+      "type": "property",
+      "name": "Norway",
+      "buyPrice": 220,
+      "upgradePrice": 150,
+      "group": "yellow"
+    },
+    {
+      "type": "property",
+      "name": "",
+      "buyPrice": 220,
+      "upgradePrice": 150,
+      "group": "yellow"
+    },
+    {
+      "type": "property",
+      "name": "",
+      "buyPrice": 240,
+      "upgradePrice": 150,
+      "group": "yellow"
+    },
+		{
+			"type": "chance"
+		},
+    {
+      "type": "station",
+      "name": "China Station",
+      "buyPrice": 200
+    },
+		{
+			"type": "spin"
+		},
+    {
+      "type": "property",
+      "name": "Germany",
+      "buyPrice": 280,
+      "upgradePrice": 200,
+      "group": "purple"
+    },
+    {
+      "type": "property",
+      "name": "France",
+      "buyPrice": 280,
+      "upgradePrice": 200,
+      "group": "purple"
+    },
+    {
+      "type": "property",
+      "name": "UK",
+      "buyPrice": 300,
+      "upgradePrice": 200,
+      "group": "purple"
+    },
+		{
+			"type": "judge"
+		},
+    {
+      "type": "property",
+      "name": "Canada",
+      "buyPrice": 300,
+      "upgradePrice": 200,
+      "group": "orange"
+    },
+    {
+      "type": "property",
+      "name": "USA",
+      "buyPrice": 300,
+      "upgradePrice": 200,
+      "group": "orange"
+    },
+    {
+      "type": "property",
+      "name": "Mexico",
+      "buyPrice": 320,
+      "upgradePrice": 200,
+      "group": "orange"
+    },
+		{
+			"type": "chest"
+		},
+    {
+      "type": "station",
+      "name": "India Station",
+      "buyPrice": 200
+    },
+		{
+			"type": "chance"
+		},
+    {
+      "type": "property",
+      "name": "Dubai",
+      "buyPrice": 360,
+      "upgradePrice": 250,
+      "group": "red"
+    },
+    {
+      "type": "property",
+      "name": "Hawaii",
+      "buyPrice": 400,
+      "upgradePrice": 250,
+      "group": "red"
+    },
+		{
+      "type": "fine",
+      "fee":  100
+		}
+	]
+}
