@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NLand : NProperty {
 
@@ -17,8 +15,8 @@ public class NLand : NProperty {
     int[] _rents = new int[maxLevel];
     public int[] Rents { get { return _rents; } }
 
-    bool _upgradeble = false;
-    public bool Upgradeble { get { return _upgradeble; } set { _upgradeble = value; } }
+    bool _upgradable = false;
+    public bool Upgradable { get { return _upgradable; } set { _upgradable = value; } }
 
     bool _degradable = false;
     public bool Degradable { get { return _degradable; } set { _degradable = value; } }
@@ -45,21 +43,19 @@ public class NLand : NProperty {
 
     }
 
-    /*
+    
     public override void SoldTo(NPlayer player)
     {
         base.SoldTo(player);
         NBoardManager.instance.UpdateGroupUpgradeble(_group);
     }
-    */
+    
 
     public void Upgrade()
     {
-        if (_upgradeble && _currentLevel < maxLevel)
+        if (_upgradable && _currentLevel < maxLevel)
         {
-            _owner.ChangeMoney(-_upgradePrice);
             _currentRent = _rents[++_currentLevel];
-            levelText.text = "lv. " + _currentLevel;
             NBoardManager.instance.UpdateGroupUpgradeble(_group);
             NBoardManager.instance.UpdateGroupDegradeble(_group);
         }
@@ -69,14 +65,17 @@ public class NLand : NProperty {
     {
         if (_degradable && _currentLevel > 0)
         {
-            _owner.ChangeMoney(_upgradePrice / 2);
             _currentRent = _rents[--_currentLevel];
-            if (_currentLevel > 0)
-                levelText.text = "lv. " + _currentLevel;
-            else
-                levelText.text = "";
-            BoardManager.instance.UpdateGroupUpgradeble(_group);
-            BoardManager.instance.UpdateGroupDegradeble(_group);
+            NBoardManager.instance.UpdateGroupUpgradeble(_group);
+            NBoardManager.instance.UpdateGroupDegradeble(_group);
         }
+    }
+
+    public void SetLevelText(int newLevel)
+    {
+        if (newLevel == 0)
+            levelText.text = "";
+        else
+            levelText.text = "lv. " + newLevel;
     }
 }

@@ -63,4 +63,5 @@ MonoBehaviour:
   - RPC_SetPropertyOwnerMarker
   - RPC_DegradeLand
   - RPC_UpgradeLand
+  - RPC_UpdateLandLevel
   DisableAutoOpenWizard: 1

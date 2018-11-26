@@ -20,6 +20,8 @@ public class NGameplay : Photon.PunBehaviour
     private int passByGoBonus = 200;
     public static int currentPlayerOrder = 0;
 
+    public static bool _isDebug = true;
+
     int numPlayers;
     private NPlayer[] _players;
     public NPlayer[] Players{ get { return _players; } }

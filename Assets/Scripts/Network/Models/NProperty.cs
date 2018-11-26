@@ -14,6 +14,7 @@ public class NProperty : NSpace {
     public int PurchasePrice { get { return _purchasePrice; } }
 
     protected int _currentRent;
+    public int CurrentRent { get { return _currentRent; } set { _currentRent = value; } }
 
     protected NPlayer _owner;
     public NPlayer Owner { get { return _owner; } set { _owner = value; } }
@@ -51,6 +52,12 @@ public class NProperty : NSpace {
             }
         }
     }
+
+    public virtual void SoldTo(NPlayer player)
+    {
+        _owner = player;
+    }
+
 
     public void ToggleMortgagedBackground()
     {

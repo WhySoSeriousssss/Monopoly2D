@@ -20,6 +20,19 @@ public class NTurnButtonPanel : MonoBehaviour {
     private Button finishButton;
 
 
+    // debug panel
+    [SerializeField]
+    private Transform manualDicePanel;
+    [SerializeField]
+    private InputField input;
+    [SerializeField]
+    private Button okButton;
+    [SerializeField]
+    private Toggle additionalRollToggle;
+
+
+
+
     private void Update()
     {
         if (NPlayer.thisPlayer.IsMoving && finishButton.interactable == true)
@@ -31,6 +44,14 @@ public class NTurnButtonPanel : MonoBehaviour {
     public void Initialize()
     {
         NGameplay.instance.OnMyTurnStartedCallback += OnMyTurnStarted;
+        if (NGameplay._isDebug)
+        {
+            rollButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            manualDicePanel.gameObject.SetActive(false);
+        }
     }
 
     public void OnRollButtonClicked()
@@ -38,10 +59,10 @@ public class NTurnButtonPanel : MonoBehaviour {
         if (NGameplay.currentPlayerOrder == NPlayer.thisPlayer.Order)
         {
             NPlayerManager.instance.RollDice();
-        }
 
-        rollButton.gameObject.SetActive(false);
-        finishButton.gameObject.SetActive(true);
+            rollButton.gameObject.SetActive(false);
+            finishButton.gameObject.SetActive(true);
+        }
     }
 
     public void OnFinishButtonClicked()
@@ -52,6 +73,28 @@ public class NTurnButtonPanel : MonoBehaviour {
 
     public void OnMyTurnStarted()
     {
-        rollButton.gameObject.SetActive(true);
+        if (NGameplay._isDebug)
+        {
+            manualDicePanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            rollButton.gameObject.SetActive(true);
+        }
+    }
+
+
+    // debug panel
+    public void OnManualDiceButtonClicked()
+    {
+        if (NGameplay.currentPlayerOrder == NPlayer.thisPlayer.Order)
+        {
+            int value = int.Parse(input.text);
+            bool additinalRoll = additionalRollToggle.isOn;
+            NPlayerManager.instance.RollDiceManual(value);
+
+            manualDicePanel.gameObject.SetActive(false);
+            finishButton.gameObject.SetActive(true);
+        }
     }
 }

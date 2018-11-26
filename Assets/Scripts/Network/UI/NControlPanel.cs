@@ -59,7 +59,7 @@ public class NControlPanel : MonoBehaviour
         ToggleButton(1);
         if (buttonActivated)
         {
-            StartCoroutine(WaitForPlayerConstructProperty());
+            StartCoroutine(WaitForPlayerSelectProperty(1));
         }
     }
 
@@ -68,7 +68,7 @@ public class NControlPanel : MonoBehaviour
         ToggleButton(2);
         if (buttonActivated)
         {
-            StartCoroutine(WaitForPlayerMortgageProperty());
+            StartCoroutine(WaitForPlayerSelectProperty(2));
         }
     }
 
@@ -77,7 +77,7 @@ public class NControlPanel : MonoBehaviour
         ToggleButton(3);
         if (buttonActivated)
         {
-            StartCoroutine(WaitForPlayerSellProperty());
+            StartCoroutine(WaitForPlayerSelectProperty(3));
         }
     }
 
@@ -86,11 +86,46 @@ public class NControlPanel : MonoBehaviour
         ToggleButton(4);
         if (buttonActivated)
         {
-            StartCoroutine(WaitForPlayerRedeemProperty());
+            StartCoroutine(WaitForPlayerSelectProperty(4));
         }
     }
 
-    IEnumerator WaitForPlayerConstructProperty()
+    public IEnumerator WaitForPlayerSelectProperty(int buttonIndex)
+    {
+        while (buttonActivated)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                if (hit.collider != null && hit.collider.CompareTag("Land"))
+                {
+                    NLand land = hit.collider.GetComponent<NLand>();
+                    if (NPlayer.thisPlayer.Properties.Contains(land))
+                    {
+                        switch (buttonIndex)
+                        {
+                            case 1:
+                                NPlayerManager.instance.UpgradeLand(land.PropertyID, PhotonNetwork.player);
+                                break;
+                            case 2:
+                                NPlayerManager.instance.MortgageProperty(land.PropertyID);
+                                break;
+                            case 3:
+                                NPlayerManager.instance.DegradeLand(land.PropertyID, PhotonNetwork.player);
+                                break;
+                            case 4:
+                                NPlayerManager.instance.RedeemProperty(land.PropertyID);
+                                break;
+
+                        }
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+    public IEnumerator WaitForPlayerConstructProperty()
     {
         while (buttonActivated)
         {
@@ -110,7 +145,7 @@ public class NControlPanel : MonoBehaviour
         }
     }
 
-    IEnumerator WaitForPlayerMortgageProperty()
+    public IEnumerator WaitForPlayerMortgageProperty()
     {
         while (buttonActivated)
         {
@@ -130,7 +165,7 @@ public class NControlPanel : MonoBehaviour
         }
     }
 
-    IEnumerator WaitForPlayerSellProperty()
+    public IEnumerator WaitForPlayerSellProperty()
     {
         while (buttonActivated)
         {
@@ -150,7 +185,7 @@ public class NControlPanel : MonoBehaviour
         }
     }
 
-    IEnumerator WaitForPlayerRedeemProperty()
+    public IEnumerator WaitForPlayerRedeemProperty()
     {
         while (buttonActivated)
         {

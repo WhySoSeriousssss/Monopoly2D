@@ -25,4 +25,9 @@ public class NDebugPanel : MonoBehaviour {
         }
         */
     }
+
+    public void OnManualDiceToggleChanged(bool newValue)
+    {
+        NGameplay._isDebug = newValue;
+    }
 }

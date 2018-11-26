@@ -10,7 +10,7 @@ public class NPlayer : Photon.MonoBehaviour {
     { Color.red, Color.yellow, Color.blue, Color.green, Color.grey, Color.cyan};
 
 
-    public int _order = -1;
+    private int _order = -1;
     public int Order { get { return _order; } set { _order = value; } }
 
     private bool _hasFinished = false;
@@ -19,7 +19,7 @@ public class NPlayer : Photon.MonoBehaviour {
     private bool _isMoving = false;
     public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
 
-    public int _currentMoney = 0;
+    private int _currentMoney = 0;
     public int CurrentMoney { get { return _currentMoney; } }
 
     private int _currentPosition;

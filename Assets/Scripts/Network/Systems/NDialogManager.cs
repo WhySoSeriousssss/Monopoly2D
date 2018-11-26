@@ -63,8 +63,8 @@ public class NDialogManager : Photon.MonoBehaviour {
     */
     public void CallTradingDialog(NPlayer callingPlayer)
     {
-        GameObject dialog = Instantiate(tradingDialogPrefab);
-        dialog.GetComponent<NTradingDialog>().Initialize(callingPlayer);
+        //GameObject dialog = Instantiate(tradingDialogPrefab);
+        //dialog.GetComponent<NTradingDialog>().Initialize(callingPlayer);
     }
 
 

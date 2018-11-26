@@ -49,6 +49,7 @@ public class NPlayerManager : Photon.PunBehaviour {
     {
         photonView.RPC("RPC_RollDice", PhotonTargets.MasterClient, PhotonNetwork.player);
     }
+
     [PunRPC]
     public void RPC_RollDice(PhotonPlayer caller)
     {
@@ -60,6 +61,7 @@ public class NPlayerManager : Photon.PunBehaviour {
 
         photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, step, caller);
     }
+
     [PunRPC]
     public void RPC_ReceiveDice(int step, PhotonPlayer caller)
     {
@@ -67,6 +69,11 @@ public class NPlayerManager : Photon.PunBehaviour {
         StartCoroutine(player.Move(step));
     }
 
+
+    public void RollDiceManual(int dice)
+    {
+        photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, dice, PhotonNetwork.player);
+    }
 
 
     public void TryToBuyProperty(NProperty property)
@@ -82,17 +89,83 @@ public class NPlayerManager : Photon.PunBehaviour {
         NPlayer player = _gamePlayers.Find(x => caller == x.photonView.owner);
         NProperty property = NBoardManager.instance.Properties[propertyID];
 
-        property.Owner = player;
-        NBoardManager.instance.PropertySoldToPlayer(propertyID, player.Order);
-
         if (player.CurrentMoney > property.PurchasePrice)
         {
             player.ChangeMoney(-property.PurchasePrice);
-            NPlayer.thisPlayer.ObtainProperty(property);
+            player.ObtainProperty(property);
+            property.SoldTo(player);
+            NBoardManager.instance.PropertySoldToPlayer(propertyID, player.Order);
         }
     }
 
     public void AuctionProperty(NProperty property)
+    {
+
+    }
+
+
+
+    public void UpgradeLand(int propertyID, PhotonPlayer caller)
+    {
+        photonView.RPC("RPC_UpgradeLand", PhotonTargets.MasterClient, propertyID, caller);
+    }
+
+    [PunRPC]
+    public void RPC_UpgradeLand(int propertyID, PhotonPlayer caller)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        NLand landToUpgrade = NBoardManager.instance.Properties[propertyID] as NLand;
+        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+        //Debug.Log(caller.NickName + " wants to upgrade " + landToUpgrade.PropertyName);
+
+        if (player.CurrentMoney < landToUpgrade.UpgradePrice)
+            return;
+        if (landToUpgrade.Upgradable && landToUpgrade.CurrentLevel < NLand.maxLevel)
+        {
+            player.ChangeMoney(-landToUpgrade.UpgradePrice);
+            landToUpgrade.Upgrade();
+            photonView.RPC("RPC_UpdateLandLevel", PhotonTargets.All, propertyID, landToUpgrade.CurrentLevel);
+        }
+    }
+
+    public void DegradeLand(int propertyID, PhotonPlayer caller)
+    {
+        photonView.RPC("RPC_DegradeLand", PhotonTargets.MasterClient, propertyID, caller);
+    }
+
+    [PunRPC]
+    public void RPC_DegradeLand(int propertyID, PhotonPlayer caller)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        NLand landToDegrade = NBoardManager.instance.Properties[propertyID] as NLand;
+        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+
+        if (landToDegrade.Degradable && landToDegrade.CurrentLevel > 0)
+        {
+            player.ChangeMoney(landToDegrade.UpgradePrice / 2);
+            landToDegrade.Degrade();
+            photonView.RPC("RPC_UpdateLandLevel", PhotonTargets.All, propertyID, landToDegrade.CurrentLevel);
+        }
+    }
+
+    [PunRPC]
+    public void RPC_UpdateLandLevel(int propertyID, int newLevel)
+    {
+        NLand land = NBoardManager.instance.Properties[propertyID] as NLand;
+        land.SetLevelText(newLevel);
+    }
+
+
+
+    public void MortgageProperty(int propertyID)
+    {
+
+    }
+
+
+    public void RedeemProperty(int propertyID)
     {
 
     }

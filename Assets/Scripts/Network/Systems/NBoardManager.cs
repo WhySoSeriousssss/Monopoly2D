@@ -253,9 +253,9 @@ public class NBoardManager : Photon.MonoBehaviour {
         foreach (NLand land in lands)
         {
             if (land.CurrentLevel == minLevel)
-                land.Upgradeble = true;
+                land.Upgradable = true;
             else
-                land.Upgradeble = false;
+                land.Upgradable = false;
         }
     }
 
@@ -310,26 +310,5 @@ public class NBoardManager : Photon.MonoBehaviour {
         prop.OwnerMarkerSR.transform.localScale = new Vector3(0.2f, 0.2f);
     }
 
-    public void UpgradeLand(int propertyID)
-    {
 
-    }
-
-    [PunRPC]
-    public void RPC_UpgradeLand()
-    {
-
-    }
-
-
-    public void DegradeLand()
-    {
-
-    }
-
-    [PunRPC]
-    public void RPC_DegradeLand()
-    {
-
-    }
 }
