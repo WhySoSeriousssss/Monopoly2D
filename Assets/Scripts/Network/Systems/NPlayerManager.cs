@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,8 +56,8 @@ public class NPlayerManager : Photon.PunBehaviour {
     {
         if (!PhotonNetwork.isMasterClient)
             return;
-        int dice1 = Random.Range(1, 7);
-        int dice2 = Random.Range(1, 7);
+        int dice1 = UnityEngine.Random.Range(1, 7);
+        int dice2 = UnityEngine.Random.Range(1, 7);
         int step = dice1 + dice2;
 
         photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, step, caller);
@@ -94,9 +95,17 @@ public class NPlayerManager : Photon.PunBehaviour {
             player.ChangeMoney(-property.PurchasePrice);
             player.ObtainProperty(property);
             property.SoldTo(player);
-            NBoardManager.instance.PropertySoldToPlayer(propertyID, player.Order);
+            photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propertyID, player.Order);
         }
     }
+
+    [PunRPC]
+    private void RPC_SetPropertyOwnerMarker(int propertyID, int playerID)
+    {
+        NProperty prop = Array.Find(FindObjectsOfType<NProperty>(), x => x.PropertyID == propertyID);
+        prop.SetNewOwnerMarker(playerID);
+    }
+
 
     public void AuctionProperty(NProperty property)
     {
@@ -129,6 +138,7 @@ public class NPlayerManager : Photon.PunBehaviour {
         }
     }
 
+
     public void DegradeLand(int propertyID, PhotonPlayer caller)
     {
         photonView.RPC("RPC_DegradeLand", PhotonTargets.MasterClient, propertyID, caller);
@@ -159,16 +169,57 @@ public class NPlayerManager : Photon.PunBehaviour {
 
 
 
-    public void MortgageProperty(int propertyID)
+    public void MortgageProperty(int propertyID, PhotonPlayer caller)
     {
-
+        photonView.RPC("RPC_MortgageProperty", PhotonTargets.MasterClient, propertyID, caller);
     }
 
-
-    public void RedeemProperty(int propertyID)
+    [PunRPC]
+    public void RPC_MortgageProperty(int propertyID, PhotonPlayer caller)
     {
+        if (!PhotonNetwork.isMasterClient)
+            return;
 
+        NProperty property = NBoardManager.instance.Properties[propertyID];
+        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+
+        if (!property.IsMortgaged)
+        {
+            property.IsMortgaged = true;
+            player.ChangeMoney(property.PurchasePrice / 2);
+            photonView.RPC("RPC_TogglePropertyMortgagedBackground", PhotonTargets.All, propertyID, true); 
+        }
     }
+
+    public void RedeemProperty(int propertyID, PhotonPlayer caller)
+    {
+        photonView.RPC("RPC_RedeemProperty", PhotonTargets.MasterClient, propertyID, caller);
+    }
+
+    [PunRPC]
+    public void RPC_RedeemProperty(int propertyID, PhotonPlayer caller)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+
+        NProperty property = NBoardManager.instance.Properties[propertyID];
+        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+
+        if (property.IsMortgaged)
+        {
+            property.IsMortgaged = false;
+            player.ChangeMoney(-(int)(property.PurchasePrice / 2 * 1.1f));
+            photonView.RPC("RPC_TogglePropertyMortgagedBackground", PhotonTargets.All, propertyID, false);
+        }
+    }
+
+    [PunRPC]
+    public void RPC_TogglePropertyMortgagedBackground(int propertyID, bool isMortgaged)
+    {
+        NProperty prop = Array.Find(FindObjectsOfType<NProperty>(), x => x.PropertyID == propertyID);
+        prop.ToggleMortgagedBackground(isMortgaged);
+    }
+
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -16,6 +16,9 @@ public class NProperty : NSpace {
     protected int _currentRent;
     public int CurrentRent { get { return _currentRent; } set { _currentRent = value; } }
 
+    protected bool _isMortgaged = false;
+    public bool IsMortgaged { get { return _isMortgaged; } set { _isMortgaged = value; } }
+
     protected NPlayer _owner;
     public NPlayer Owner { get { return _owner; } set { _owner = value; } }
 
@@ -59,9 +62,24 @@ public class NProperty : NSpace {
     }
 
 
-    public void ToggleMortgagedBackground()
+    public void SetNewOwnerMarker(int ownerID)
     {
-        if (backgroundSR.color == bgColor)
+        // remove old marker
+        if (OwnerMarkerSR != null)
+        {
+            Destroy(OwnerMarkerSR);
+            OwnerMarkerSR = null;
+        }
+
+        // add new markers
+        OwnerMarkerSR = Instantiate(NGameplay.instance.Players[ownerID].SR, OwnerMarkerPos, Quaternion.identity);
+        OwnerMarkerSR.transform.localScale = new Vector3(0.2f, 0.2f);
+    }
+
+
+    public void ToggleMortgagedBackground(bool isMortgaged)
+    {
+        if (isMortgaged)
             backgroundSR.color = mortgagedBgColor;
         else
             backgroundSR.color = bgColor;

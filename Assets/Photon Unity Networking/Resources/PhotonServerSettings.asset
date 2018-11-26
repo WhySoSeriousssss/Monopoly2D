@@ -64,4 +64,7 @@ MonoBehaviour:
   - RPC_DegradeLand
   - RPC_UpgradeLand
   - RPC_UpdateLandLevel
+  - RPC_MortgageProperty
+  - RPC_RedeemProperty
+  - RPC_TogglePropertyMortgagedBackground
   DisableAutoOpenWizard: 1

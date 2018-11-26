@@ -108,13 +108,13 @@ public class NControlPanel : MonoBehaviour
                                 NPlayerManager.instance.UpgradeLand(land.PropertyID, PhotonNetwork.player);
                                 break;
                             case 2:
-                                NPlayerManager.instance.MortgageProperty(land.PropertyID);
+                                NPlayerManager.instance.MortgageProperty(land.PropertyID, PhotonNetwork.player);
                                 break;
                             case 3:
                                 NPlayerManager.instance.DegradeLand(land.PropertyID, PhotonNetwork.player);
                                 break;
                             case 4:
-                                NPlayerManager.instance.RedeemProperty(land.PropertyID);
+                                NPlayerManager.instance.RedeemProperty(land.PropertyID, PhotonNetwork.player);
                                 break;
 
                         }

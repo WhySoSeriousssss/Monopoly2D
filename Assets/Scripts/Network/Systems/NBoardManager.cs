@@ -61,12 +61,13 @@ public class NBoardManager : Photon.MonoBehaviour {
 
     public Dictionary<Color, List<NLand>> groups = new Dictionary<Color, List<NLand>>();
 
+    /*
     private List<List<int>> _propertiesByPlayer = new List<List<int>>();
     public List<List<int>> PropertiesByPlayer { get { return _propertiesByPlayer; } }
 
     private List<NPlayer> _propertyOwnership = new List<NPlayer>();
     public List<NPlayer> PropertyOwnership { get { return _propertyOwnership; } }
-
+    */
 
     public void Initialize()
     {
@@ -285,11 +286,11 @@ public class NBoardManager : Photon.MonoBehaviour {
         }
     }
     
-    public void PropertySoldToPlayer(int propertyID, int playerID)
+    /*
+    public void SetPropertyOwnerMarker(int propertyID, int playerID)
     {
         if (!PhotonNetwork.isMasterClient)
             return;
-        //_propertyOwnership[propertyID] = NGameplay.instance.Players[playerID];
         photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propertyID, playerID);
     }
 
@@ -298,17 +299,23 @@ public class NBoardManager : Photon.MonoBehaviour {
     {
         NProperty prop = Array.Find(FindObjectsOfType<NProperty>(), x => x.PropertyID == propertyID);
 
-        // remove old marker
-        if (prop.OwnerMarkerSR != null)
-        {
-            Destroy(prop.OwnerMarkerSR);
-            prop.OwnerMarkerSR = null;
-        }
+        prop.SetNewOwnerMarker(playerID);
+    }
+    
 
-        // add new markers
-        prop.OwnerMarkerSR = Instantiate(NGameplay.instance.Players[playerID].SR, prop.OwnerMarkerPos, Quaternion.identity);
-        prop.OwnerMarkerSR.transform.localScale = new Vector3(0.2f, 0.2f);
+    public void TogglePropertyMortgagedBackground(int propertyID)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        photonView.RPC("RPC_TogglePropertyMortgagedBackground", PhotonTargets.All, propertyID);
     }
 
+    [PunRPC]
+    public void RPC_TogglePropertyMortgagedBackground(int propertyID)
+    {
+        NProperty prop = Array.Find(FindObjectsOfType<NProperty>(), x => x.PropertyID == propertyID);
 
+        prop.ToggleMortgagedBackground();
+    }
+    */
 }
