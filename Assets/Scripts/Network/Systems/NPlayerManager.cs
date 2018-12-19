@@ -17,11 +17,16 @@ public class NPlayerManager : Photon.PunBehaviour {
 
     List<NPlayer> _gamePlayers = new List<NPlayer>();
 
-
     private void Start()
     {
         _gamePlayers = new List<NPlayer>(FindObjectsOfType<NPlayer>());
     }
+
+    public NPlayer FindGamePlayer(PhotonPlayer player)
+    {
+        return _gamePlayers.Find(x => player == x.photonView.owner);
+    }
+
 
     public void StartTurn()
     {
@@ -41,7 +46,7 @@ public class NPlayerManager : Photon.PunBehaviour {
     [PunRPC]
     public void RPC_ReceiveFinishStatus(bool hasFinished, PhotonPlayer caller)
     {
-        NPlayer player = _gamePlayers.Find(x => caller == x.photonView.owner);
+        NPlayer player = FindGamePlayer(caller);
         player.HasFinished = hasFinished;
     }
 
@@ -66,7 +71,7 @@ public class NPlayerManager : Photon.PunBehaviour {
     [PunRPC]
     public void RPC_ReceiveDice(int step, PhotonPlayer caller)
     {
-        NPlayer player = _gamePlayers.Find(x => caller == x.photonView.owner);
+        NPlayer player = FindGamePlayer(caller);
         StartCoroutine(player.Move(step));
     }
 
@@ -76,6 +81,41 @@ public class NPlayerManager : Photon.PunBehaviour {
         photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, dice, PhotonNetwork.player);
     }
 
+    public void TradeProperty(PhotonPlayer trader, PhotonPlayer tradee, int[] propA, int[] propB, int moneyA, int moneyB)
+    {
+        photonView.RPC("RPC_TradeProperty", PhotonTargets.MasterClient, trader, tradee, propA, propB, moneyA, moneyB);
+    }
+
+    [PunRPC]
+    public void RPC_TradeProperty(PhotonPlayer trader, PhotonPlayer tradee, int[] propA, int[] propB, int moneyA, int moneyB)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        NPlayer playerA = FindGamePlayer(trader);
+        NPlayer playerB = FindGamePlayer(tradee);
+
+        playerA.ChangeMoney(-moneyA);
+        playerA.ChangeMoney(moneyB);
+        playerB.ChangeMoney(moneyA);
+        playerB.ChangeMoney(-moneyB);
+
+        foreach(int propID in propB)
+        {
+            NProperty property = NBoardManager.instance.Properties[propID];
+            playerA.ObtainProperty(property);
+            property.SoldTo(playerA);
+            photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propID, trader);
+        }
+
+        foreach (int propID in propA)
+        {
+            NProperty property = NBoardManager.instance.Properties[propID];
+            playerB.ObtainProperty(property);
+            property.SoldTo(playerB);
+            photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propID, tradee);
+        }
+
+    }
 
     public void TryToBuyProperty(NProperty property)
     {
@@ -87,7 +127,7 @@ public class NPlayerManager : Photon.PunBehaviour {
     {
         if (!PhotonNetwork.isMasterClient)
             return;
-        NPlayer player = _gamePlayers.Find(x => caller == x.photonView.owner);
+        NPlayer player = FindGamePlayer(caller);
         NProperty property = NBoardManager.instance.Properties[propertyID];
 
         if (player.CurrentMoney > property.PurchasePrice)
@@ -95,15 +135,15 @@ public class NPlayerManager : Photon.PunBehaviour {
             player.ChangeMoney(-property.PurchasePrice);
             player.ObtainProperty(property);
             property.SoldTo(player);
-            photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propertyID, player.Order);
+            photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propertyID, caller);
         }
     }
 
     [PunRPC]
-    private void RPC_SetPropertyOwnerMarker(int propertyID, int playerID)
+    private void RPC_SetPropertyOwnerMarker(int propertyID, PhotonPlayer player)
     {
-        NProperty prop = Array.Find(FindObjectsOfType<NProperty>(), x => x.PropertyID == propertyID);
-        prop.SetNewOwnerMarker(playerID);
+        NProperty prop = NBoardManager.instance.FindProperty(propertyID);
+        prop.SetNewOwnerMarker(FindGamePlayer(player));
     }
 
 
@@ -125,10 +165,10 @@ public class NPlayerManager : Photon.PunBehaviour {
         if (!PhotonNetwork.isMasterClient)
             return;
         NLand landToUpgrade = NBoardManager.instance.Properties[propertyID] as NLand;
-        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+        NPlayer player = FindGamePlayer(caller);
         //Debug.Log(caller.NickName + " wants to upgrade " + landToUpgrade.PropertyName);
 
-        if (player.CurrentMoney < landToUpgrade.UpgradePrice)
+        if (player.CurrentMoney < landToUpgrade.UpgradePrice || landToUpgrade.IsMortgaged)
             return;
         if (landToUpgrade.Upgradable && landToUpgrade.CurrentLevel < NLand.maxLevel)
         {
@@ -150,7 +190,7 @@ public class NPlayerManager : Photon.PunBehaviour {
         if (!PhotonNetwork.isMasterClient)
             return;
         NLand landToDegrade = NBoardManager.instance.Properties[propertyID] as NLand;
-        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+        NPlayer player = FindGamePlayer(caller);
 
         if (landToDegrade.Degradable && landToDegrade.CurrentLevel > 0)
         {
@@ -181,7 +221,7 @@ public class NPlayerManager : Photon.PunBehaviour {
             return;
 
         NProperty property = NBoardManager.instance.Properties[propertyID];
-        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+        NPlayer player = FindGamePlayer(caller);
 
         if (!property.IsMortgaged)
         {
@@ -203,7 +243,7 @@ public class NPlayerManager : Photon.PunBehaviour {
             return;
 
         NProperty property = NBoardManager.instance.Properties[propertyID];
-        NPlayer player = _gamePlayers.Find(x => x.photonView.owner == caller);
+        NPlayer player = FindGamePlayer(caller);
 
         if (property.IsMortgaged)
         {
@@ -216,7 +256,7 @@ public class NPlayerManager : Photon.PunBehaviour {
     [PunRPC]
     public void RPC_TogglePropertyMortgagedBackground(int propertyID, bool isMortgaged)
     {
-        NProperty prop = Array.Find(FindObjectsOfType<NProperty>(), x => x.PropertyID == propertyID);
+        NProperty prop = NBoardManager.instance.FindProperty(propertyID);
         prop.ToggleMortgagedBackground(isMortgaged);
     }
 

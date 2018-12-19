@@ -19,6 +19,8 @@ public class NDialogManager : Photon.MonoBehaviour {
     [SerializeField]
     private GameObject inJailDialogPrefab;
     [SerializeField]
+    private GameObject selectTradeeDialogPrefab;
+    [SerializeField]
     private GameObject tradingDialogPrefab;
     [SerializeField]
     private GameObject auctionDialogPrefab;
@@ -30,6 +32,7 @@ public class NDialogManager : Photon.MonoBehaviour {
     {
         _properties = NBoardManager.instance.Properties;
     }
+
 
     public void CallPropertyPurchaseDialog(int propertyIndex, PhotonPlayer caller)
     {
@@ -61,10 +64,43 @@ public class NDialogManager : Photon.MonoBehaviour {
         Instantiate(inJailDialogPrefab);
     }
     */
-    public void CallTradingDialog(NPlayer callingPlayer)
+
+    public void CallSelectTradeeDialog(PhotonPlayer caller)
     {
-        //GameObject dialog = Instantiate(tradingDialogPrefab);
-        //dialog.GetComponent<NTradingDialog>().Initialize(callingPlayer);
+        GameObject dialog = Instantiate(selectTradeeDialogPrefab);
+        dialog.GetComponentInChildren<NSelectTradeeDialog>().Initialize(caller);
+    }
+
+
+    public void CallTradingDialog(PhotonPlayer trader, PhotonPlayer tradee)
+    {
+        photonView.RPC("RPC_CallTradingDialog", PhotonTargets.MasterClient, trader, tradee);
+    }
+
+    [PunRPC]
+    public void RPC_CallTradingDialog(PhotonPlayer trader, PhotonPlayer tradee)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        int id = PhotonNetwork.AllocateViewID();
+        photonView.RPC("RPC_CreateTradingDialog", PhotonTargets.All, trader, tradee, id);
+
+    }
+
+    [PunRPC]
+    public void RPC_CreateTradingDialog(PhotonPlayer trader, PhotonPlayer tradee, int viewID)
+    {
+        int mode;
+        if (PhotonNetwork.player == trader)
+            mode = 0;
+        else if (PhotonNetwork.player == tradee)
+            mode = 1;
+        else
+            mode = 2;
+
+        GameObject dialogObj = Instantiate(tradingDialogPrefab);
+        dialogObj.GetComponentInChildren<PhotonView>().viewID = viewID;
+        dialogObj.GetComponentInChildren<NTradingDialog>().Initialize(trader, tradee, mode);
     }
 
 

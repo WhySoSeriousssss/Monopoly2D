@@ -67,4 +67,11 @@ MonoBehaviour:
   - RPC_MortgageProperty
   - RPC_RedeemProperty
   - RPC_TogglePropertyMortgagedBackground
+  - RPC_CallTradingDialog
+  - RPC_CreateTradingDialog
+  - RPC_ReceiveMoneyChange
+  - RPC_ReceiveToggledProperty
+  - RPC_MakeTradeOffer
+  - RPC_ReceivePropertyTrade
+  - RPC_TradeProperty
   DisableAutoOpenWizard: 1

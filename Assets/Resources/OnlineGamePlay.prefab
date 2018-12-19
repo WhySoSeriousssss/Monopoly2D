@@ -86,7 +86,10 @@ MonoBehaviour:
   propertyPurchaseDialogPrefab: {fileID: 1432687586410540, guid: e493633bdc8f2d94fa36ad1733ccdae4,
     type: 2}
   inJailDialogPrefab: {fileID: 0}
-  tradingDialogPrefab: {fileID: 0}
+  selectTradeeDialogPrefab: {fileID: 1325569419269522, guid: 00d98813c2c3a434caad125a614fda32,
+    type: 2}
+  tradingDialogPrefab: {fileID: 1377288677382018, guid: b3a81328f816d0d4eb72a3ec3d014fca,
+    type: 2}
   auctionDialogPrefab: {fileID: 0}
 --- !u!114 &114084777227613318
 MonoBehaviour:
@@ -128,7 +131,7 @@ MonoBehaviour:
   synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  ownershipTransfer: 1
+  ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114084777227613318}
   - {fileID: 114092506056303102}

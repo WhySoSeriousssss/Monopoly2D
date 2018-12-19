@@ -234,6 +234,12 @@ public class NBoardManager : Photon.MonoBehaviour {
     }
 
     
+    public NProperty FindProperty(int propID)
+    {
+        return _properties.Find( x => x.PropertyID == propID);
+    }
+
+
     public void UpdateGroupUpgradeble(Color group)
     {
         List<NLand> lands = groups[group];

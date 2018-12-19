@@ -962,11 +962,6 @@ Prefab:
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114465129150856462, guid: 1fbe27ee81d9e2342a3f750b9356c0e5,
-        type: 2}
-      propertyPath: ownershipTransfer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fbe27ee81d9e2342a3f750b9356c0e5, type: 2}
   m_IsPrefabAsset: 0

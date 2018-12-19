@@ -27,31 +27,48 @@ public class NControlPanel : MonoBehaviour
 
     private void Update()
     {
-        if (NPlayer.thisPlayer.Order != NGameplay.currentPlayerOrder) return;
-        if (groupInteractable && NPlayer.thisPlayer.IsMoving)
+        if (NPlayer.thisPlayer.Order != NGameplay.currentPlayerOrder && groupInteractable)
         {
             SetGroupInteractable(false);
         }
-        else if (!groupInteractable && !NPlayer.thisPlayer.IsMoving)
+        else
         {
-            SetGroupInteractable(true);
+            if (NPlayer.thisPlayer.Order == NGameplay.currentPlayerOrder && !groupInteractable)
+            {
+                SetGroupInteractable(true);
+            }
+            else
+            {
+                if (groupInteractable && NPlayer.thisPlayer.IsMoving)
+                {
+                    SetGroupInteractable(false);
+                }
+                else if (!groupInteractable && !NPlayer.thisPlayer.IsMoving)
+                {
+                    SetGroupInteractable(true);
+                }
+            }
         }
     }
 
 
     public void OnTradeButtonClicked()
     {
-        ToggleButton(0);
-        if (buttonActivated)
-        {
-            NDialogManager.instance.CallTradingDialog(NPlayer.thisPlayer);
-        }
-        else
-        {
-            NTradingDialog td = FindObjectOfType<NTradingDialog>();
-            if (td != null)
-                Destroy(td.gameObject);
-        }
+        //ToggleButton(0);
+        //if (buttonActivated)
+        //{
+        if (FindObjectOfType<NSelectTradeeDialog>() == null)
+            NDialogManager.instance.CallSelectTradeeDialog(PhotonNetwork.player);
+        //}
+        //else
+        //{
+        //    NSelectTradeeDialog std = FindObjectOfType<NSelectTradeeDialog>();
+        //    if (std != null)
+        //        Destroy(std.gameObject);
+        //    NTradingDialog td = FindObjectOfType<NTradingDialog>();
+        //    if (td != null)
+        //        Destroy(td.gameObject);
+        //}
     }
 
     public void OnConstructButtonClicked()

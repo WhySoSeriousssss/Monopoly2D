@@ -62,7 +62,7 @@ public class NProperty : NSpace {
     }
 
 
-    public void SetNewOwnerMarker(int ownerID)
+    public void SetNewOwnerMarker(NPlayer owner)
     {
         // remove old marker
         if (OwnerMarkerSR != null)
@@ -72,7 +72,7 @@ public class NProperty : NSpace {
         }
 
         // add new markers
-        OwnerMarkerSR = Instantiate(NGameplay.instance.Players[ownerID].SR, OwnerMarkerPos, Quaternion.identity);
+        OwnerMarkerSR = Instantiate(owner.SR, OwnerMarkerPos, Quaternion.identity);
         OwnerMarkerSR.transform.localScale = new Vector3(0.2f, 0.2f);
     }
 
