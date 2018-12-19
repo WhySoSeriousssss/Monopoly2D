@@ -16,6 +16,9 @@ public class NPlayer : Photon.MonoBehaviour {
     private bool _hasFinished = false;
     public bool HasFinished { get { return _hasFinished; } set { _hasFinished = value; } }
 
+    private bool _canStart = false;
+    public bool CanStart { get { return _canStart; } set { _canStart = value; } }
+
     private bool _isMoving = false;
     public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
 
@@ -71,6 +74,7 @@ public class NPlayer : Photon.MonoBehaviour {
         }
     }
 
+
     private void Start()
     {
         if (photonView.isMine)
@@ -92,9 +96,9 @@ public class NPlayer : Photon.MonoBehaviour {
             _currentPosition = (_currentPosition + 1) % numSpaces;
             yield return new WaitForSeconds(0.2f);
         }
-        // Pass by GO
+        // Pass GO
         if (_currentPosition == oldPos + steps - numSpaces)
-            LocPlayerController.instance.PassByGO();
+            NPlayerManager.instance.PassGo(this);
 
         NSpace space = allSpaces[_currentPosition];
         space.StepOn(this);
@@ -141,6 +145,19 @@ public class NPlayer : Photon.MonoBehaviour {
     {
         NProperty property = allProperties[propertyID];
         _properties.Add(property);
+    }
+
+    public void LoseProperty(NProperty property)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        photonView.RPC("RPC_LoseProperty", PhotonTargets.All, property.PropertyID);
+    }
+    [PunRPC]
+    public void RPC_LoseProperty(int propertyID)
+    {
+        NProperty property = allProperties[propertyID];
+        _properties.Remove(property);
     }
 
 

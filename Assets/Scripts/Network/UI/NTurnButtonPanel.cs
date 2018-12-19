@@ -67,7 +67,7 @@ public class NTurnButtonPanel : MonoBehaviour {
 
     public void OnFinishButtonClicked()
     {
-        NPlayerManager.instance.FinishTurn();
+        NPlayer.thisPlayer.HasFinished = true;
         finishButton.gameObject.SetActive(false);
     }
 
@@ -91,7 +91,7 @@ public class NTurnButtonPanel : MonoBehaviour {
         {
             int value = int.Parse(input.text);
             bool additinalRoll = additionalRollToggle.isOn;
-            NPlayerManager.instance.RollDiceManual(value);
+            NPlayerManager.instance.RollDiceManual(value, additinalRoll);
 
             manualDicePanel.gameObject.SetActive(false);
             finishButton.gameObject.SetActive(true);

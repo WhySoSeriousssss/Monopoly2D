@@ -27,21 +27,19 @@ public class NPlayerManager : Photon.PunBehaviour {
         return _gamePlayers.Find(x => player == x.photonView.owner);
     }
 
-
+    /*
     public void StartTurn()
     {
         photonView.RPC("RPC_ChangeFinishStatus", PhotonTargets.MasterClient, false, PhotonNetwork.player);
     }
-    public void FinishTurn()
-    {
-        photonView.RPC("RPC_ChangeFinishStatus", PhotonTargets.MasterClient, true, PhotonNetwork.player);
-    }
+    
     [PunRPC]
     public void RPC_ChangeFinishStatus(bool hasFinished, PhotonPlayer caller)
     {
         if (!PhotonNetwork.isMasterClient)
             return;
-        photonView.RPC("RPC_ReceiveFinishStatus", PhotonTargets.All, hasFinished, caller);
+        FindGamePlayer(caller).HasFinished = hasFinished;
+        //photonView.RPC("RPC_ReceiveFinishStatus", PhotonTargets.All, hasFinished, caller);
     }
     [PunRPC]
     public void RPC_ReceiveFinishStatus(bool hasFinished, PhotonPlayer caller)
@@ -49,7 +47,7 @@ public class NPlayerManager : Photon.PunBehaviour {
         NPlayer player = FindGamePlayer(caller);
         player.HasFinished = hasFinished;
     }
-
+    */
 
     public void RollDice()
     {
@@ -63,23 +61,49 @@ public class NPlayerManager : Photon.PunBehaviour {
             return;
         int dice1 = UnityEngine.Random.Range(1, 7);
         int dice2 = UnityEngine.Random.Range(1, 7);
-        int step = dice1 + dice2;
 
-        photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, step, caller);
+        if (dice1 == dice2)
+            NGameplay.instance.additionalDice = true;
+        photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, dice1, dice2, caller);
     }
 
     [PunRPC]
-    public void RPC_ReceiveDice(int step, PhotonPlayer caller)
+    public void RPC_ReceiveDice(int dice1, int dice2, PhotonPlayer caller)
     {
         NPlayer player = FindGamePlayer(caller);
-        StartCoroutine(player.Move(step));
+        StartCoroutine(player.Move(dice1 + dice2));
     }
 
-
-    public void RollDiceManual(int dice)
+    // debug use
+    public void RollDiceManual(int dice, bool additionalRoll)
     {
-        photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, dice, PhotonNetwork.player);
+        photonView.RPC("RPC_RollDiceManual", PhotonTargets.MasterClient, dice, additionalRoll, PhotonNetwork.player);
     }
+
+    [PunRPC]
+    public void RPC_RollDiceManual(int dice, bool additionalRoll, PhotonPlayer caller)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        if (additionalRoll)
+            NGameplay.instance.additionalDice = true;
+        photonView.RPC("RPC_ReceiveDiceManual", PhotonTargets.All, dice, caller);
+    }
+
+    [PunRPC]
+    public void RPC_ReceiveDiceManual(int dice, PhotonPlayer caller)
+    {
+        NPlayer player = FindGamePlayer(caller);
+        StartCoroutine(player.Move(dice));
+    }
+
+
+    public void PassGo(NPlayer player)
+    {
+        player.ChangeMoney(NGameplay.passGoBonus);
+    }
+
+
 
     public void TradeProperty(PhotonPlayer trader, PhotonPlayer tradee, int[] propA, int[] propB, int moneyA, int moneyB)
     {
@@ -102,6 +126,7 @@ public class NPlayerManager : Photon.PunBehaviour {
         foreach(int propID in propB)
         {
             NProperty property = NBoardManager.instance.Properties[propID];
+            playerB.LoseProperty(property);
             playerA.ObtainProperty(property);
             property.SoldTo(playerA);
             photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propID, trader);
@@ -110,6 +135,7 @@ public class NPlayerManager : Photon.PunBehaviour {
         foreach (int propID in propA)
         {
             NProperty property = NBoardManager.instance.Properties[propID];
+            playerA.LoseProperty(property);
             playerB.ObtainProperty(property);
             property.SoldTo(playerB);
             photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propID, tradee);
@@ -117,13 +143,14 @@ public class NPlayerManager : Photon.PunBehaviour {
 
     }
 
-    public void TryToBuyProperty(NProperty property)
+
+    public void PurchaseProperty(NProperty property)
     {
-        photonView.RPC("RPC_TryToBuyProperty", PhotonTargets.MasterClient, property.PropertyID, PhotonNetwork.player);
+        photonView.RPC("RPC_PurchaseProperty", PhotonTargets.MasterClient, property.PropertyID, PhotonNetwork.player);
     }
 
     [PunRPC]
-    public void RPC_TryToBuyProperty(int propertyID, PhotonPlayer caller)
+    public void RPC_PurchaseProperty(int propertyID, PhotonPlayer caller)
     {
         if (!PhotonNetwork.isMasterClient)
             return;

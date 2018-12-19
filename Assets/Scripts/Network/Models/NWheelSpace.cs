@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 public class NWheelSpace : NSpace {
 
+    public override void StepOn(NPlayer player)
+    {
+        NSpinWheelManager.instance.InvokeWheel(player);
+    }
 }

@@ -17,8 +17,11 @@ public class NGameplay : Photon.PunBehaviour
 
 
     private int _initialMoney = 3500;
-    private int passByGoBonus = 200;
+    public static int passGoBonus = 200;
+
     public static int currentPlayerOrder = 0;
+    private bool currentPlayerFinished = false;
+    public bool additionalDice = false;
 
     public static bool _isDebug = true;
 
@@ -114,6 +117,7 @@ public class NGameplay : Photon.PunBehaviour
     {
         while (true)
         {
+            /*
             while (currentPlayerOrder != NPlayer.thisPlayer.Order)
             {
                 yield return null;
@@ -126,6 +130,44 @@ public class NGameplay : Photon.PunBehaviour
                 yield return null;
             }
             photonView.RPC("RPC_UpdateCurrentPlayerOrder", PhotonTargets.All, (currentPlayerOrder + 1) % numPlayers);
+            */
+
+            if (PhotonNetwork.isMasterClient)
+            {
+                photonView.RPC("RPC_SetCanStart", _players[currentPlayerOrder].photonView.owner);
+
+                if (currentPlayerOrder == NPlayer.thisPlayer.Order)
+                {
+                    OnMyTurnStartedCallback.Invoke();
+                    NPlayer.thisPlayer.CanStart = false;
+                    while (!NPlayer.thisPlayer.HasFinished)
+                        yield return null;
+                    currentPlayerFinished = true;
+                    NPlayer.thisPlayer.HasFinished = false;
+                }
+
+                while (!currentPlayerFinished)
+                    yield return null;
+                currentPlayerFinished = false;
+
+                if (!additionalDice)
+                    currentPlayerOrder = (currentPlayerOrder + 1) % numPlayers;
+                else
+                    additionalDice = false;
+
+                photonView.RPC("RPC_UpdateCurrentPlayerOrder", PhotonTargets.All, currentPlayerOrder);
+            }
+            else
+            {
+                while (!NPlayer.thisPlayer.CanStart)
+                    yield return null;
+                OnMyTurnStartedCallback.Invoke();
+                NPlayer.thisPlayer.CanStart = false;
+                while (!NPlayer.thisPlayer.HasFinished)
+                    yield return null;
+                photonView.RPC("RPC_CurrentPlayerFinished", PhotonTargets.MasterClient);
+                NPlayer.thisPlayer.HasFinished = false;
+            }
         }
     }
 
@@ -140,6 +182,19 @@ public class NGameplay : Photon.PunBehaviour
     {
         currentPlayerOrder = newOrder;
         OnCurrentPlayerChangedCallBack.Invoke(newOrder);
+    }
+
+    [PunRPC]
+    public void RPC_SetCanStart()
+    {
+        NPlayer.thisPlayer.CanStart = true;
+    }
+
+    [PunRPC]
+    public void RPC_CurrentPlayerFinished()
+    {
+        if (PhotonNetwork.isMasterClient)
+            currentPlayerFinished = true;
     }
 
 

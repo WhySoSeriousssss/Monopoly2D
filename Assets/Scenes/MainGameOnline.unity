@@ -920,6 +920,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114465129150856462, guid: 1fbe27ee81d9e2342a3f750b9356c0e5,
+        type: 2}
+      propertyPath: ObservedComponents.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4459117142988332, guid: 1fbe27ee81d9e2342a3f750b9356c0e5, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -952,6 +957,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114198577505583666, guid: 1fbe27ee81d9e2342a3f750b9356c0e5,
+        type: 2}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 1188887595}
     - target: {fileID: 114465129150856462, guid: 1fbe27ee81d9e2342a3f750b9356c0e5,
         type: 2}
       propertyPath: viewIdField
@@ -962,9 +972,20 @@ Prefab:
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114465129150856462, guid: 1fbe27ee81d9e2342a3f750b9356c0e5,
+        type: 2}
+      propertyPath: ObservedComponents.Array.data[3]
+      value: 
+      objectReference: {fileID: 783521266}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fbe27ee81d9e2342a3f750b9356c0e5, type: 2}
   m_IsPrefabAsset: 0
+--- !u!114 &783521266 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114198577505583666, guid: 1fbe27ee81d9e2342a3f750b9356c0e5,
+    type: 2}
+  m_PrefabInternal: {fileID: 783521265}
+  m_Script: {fileID: 11500000, guid: 6b0e8a647f6f40b4ba68db31501d267c, type: 3}
 --- !u!1 &872094265
 GameObject:
   m_ObjectHideFlags: 0

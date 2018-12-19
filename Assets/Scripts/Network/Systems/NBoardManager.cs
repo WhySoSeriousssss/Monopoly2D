@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Xml.Linq;
 using System;
 
-public class NBoardManager : Photon.MonoBehaviour {
+public class NBoardManager : MonoBehaviour {
 
     #region Singleton
     public static NBoardManager instance;

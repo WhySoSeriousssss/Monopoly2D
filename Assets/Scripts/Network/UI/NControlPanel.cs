@@ -22,31 +22,25 @@ public class NControlPanel : MonoBehaviour
     bool buttonActivated = false;
     Button currentActivatedButton;
 
-    bool groupInteractable = false;
+    bool groupInteractable = true;
 
 
     private void Update()
     {
-        if (NPlayer.thisPlayer.Order != NGameplay.currentPlayerOrder && groupInteractable)
+        if (NPlayer.thisPlayer.Order != NGameplay.currentPlayerOrder)
         {
-            SetGroupInteractable(false);
+            if (groupInteractable)
+                SetGroupInteractable(false);
         }
         else
         {
-            if (NPlayer.thisPlayer.Order == NGameplay.currentPlayerOrder && !groupInteractable)
+            if (groupInteractable && NPlayer.thisPlayer.IsMoving)
+            {
+                SetGroupInteractable(false);
+            }
+            else if (!groupInteractable && !NPlayer.thisPlayer.IsMoving)
             {
                 SetGroupInteractable(true);
-            }
-            else
-            {
-                if (groupInteractable && NPlayer.thisPlayer.IsMoving)
-                {
-                    SetGroupInteractable(false);
-                }
-                else if (!groupInteractable && !NPlayer.thisPlayer.IsMoving)
-                {
-                    SetGroupInteractable(true);
-                }
             }
         }
     }

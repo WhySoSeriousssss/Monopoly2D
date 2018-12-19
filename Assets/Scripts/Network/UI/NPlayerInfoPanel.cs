@@ -30,6 +30,9 @@ public class NPlayerInfoPanel : MonoBehaviour {
             playersInfo.Add(playerInfo);
         }
 
+        // hightlight the first player info
+        playersInfo[0].ToggleHighlighted(true);
+
         NGameplay.instance.OnCurrentPlayerChangedCallBack += SetCurrentPlayer;
     }
 

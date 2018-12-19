@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114092506056303102}
   - component: {fileID: 114025400648062870}
   - component: {fileID: 114072532203138350}
+  - component: {fileID: 114198577505583666}
   m_Layer: 0
   m_Name: OnlineGamePlay
   m_TagString: Untagged
@@ -113,6 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0f889be7b8d064fb0cd3e87da6b8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114198577505583666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1285479085034726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0e8a647f6f40b4ba68db31501d267c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spinWheelPrefab: {fileID: 1062308625445300, guid: 367a91d58cd03894baaff9923600eba2,
+    type: 2}
+  HUD: {fileID: 0}
 --- !u!114 &114465129150856462
 MonoBehaviour:
   m_ObjectHideFlags: 1

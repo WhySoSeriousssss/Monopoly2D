@@ -74,4 +74,11 @@ MonoBehaviour:
   - RPC_MakeTradeOffer
   - RPC_ReceivePropertyTrade
   - RPC_TradeProperty
+  - RPC_LoseProperty
+  - RPC_PurchaseProperty
+  - RPC_InvokeWheel
+  - RPC_CurrentPlayerFinished
+  - RPC_SetCanStart
+  - RPC_RollDiceManual
+  - RPC_ReceiveDiceManual
   DisableAutoOpenWizard: 1

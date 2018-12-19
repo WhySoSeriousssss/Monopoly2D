@@ -1,5 +1,14 @@
 TODO:
 
 Implementation:
+- double dice (done)
+- auction
+- spin wheel (done)
+- chest & chance
+- jail
+- parking lot
+- railway travel
+- pass go (done)
+
 
 Fix:
