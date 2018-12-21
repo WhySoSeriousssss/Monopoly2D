@@ -176,7 +176,7 @@ public class NPlayerManager : Photon.PunBehaviour {
 
     public void AuctionProperty(NProperty property)
     {
-
+        NDialogManager.instance.CallAuctionDialog(property);
     }
 
 

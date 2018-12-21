@@ -34,6 +34,7 @@ public class NDialogManager : Photon.MonoBehaviour {
     }
 
 
+    // Property Purchase Dialog
     public void CallPropertyPurchaseDialog(int propertyIndex, PhotonPlayer caller)
     {
         if (!PhotonNetwork.isMasterClient)
@@ -41,7 +42,7 @@ public class NDialogManager : Photon.MonoBehaviour {
         int id = PhotonNetwork.AllocateViewID();
         photonView.RPC("RPC_CreatePropertyPurchaseDialog", PhotonTargets.All, propertyIndex, caller, id);
     }
-
+ 
     [PunRPC]
     public void RPC_CreatePropertyPurchaseDialog(int propertyIndex, PhotonPlayer caller, int viewID)
     {
@@ -50,21 +51,43 @@ public class NDialogManager : Photon.MonoBehaviour {
         dialogObj.GetComponent<NPropertyPurchaseDialog>().Initialize(_properties[propertyIndex], (caller == PhotonNetwork.player));
     }
 
-    /*
-    public AuctionDialog CallAuctionDialog(NPlayer callingPlayer, NProperty propertyToAuction)
+
+    // Auction Dialog
+    public void CallAuctionDialog(NProperty property)
     {
-        GameObject dialog = Instantiate(auctionDialogPrefab);
-        AuctionDialog ad = dialog.GetComponent<AuctionDialog>();
-        ad.Initialize(callingPlayer, propertyToAuction);
-        return ad;
+        photonView.RPC("RPC_CallAuctionDialog", PhotonTargets.MasterClient, PhotonNetwork.player, property.PropertyID);
     }
 
+    [PunRPC]
+    public void RPC_CallAuctionDialog(PhotonPlayer caller, int propertyID)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        int id = PhotonNetwork.AllocateViewID();
+        photonView.RPC("RPC_CreateAuctionDialog", PhotonTargets.All, caller, propertyID, id);
+    }
+
+    [PunRPC]
+    public void RPC_CreateAuctionDialog(PhotonPlayer caller, int propertyID, int viewID)
+    {
+        NPlayer callingPlayer = NPlayerManager.instance.FindGamePlayer(caller);
+        NProperty property = NBoardManager.instance.FindProperty(propertyID);
+
+        GameObject dialog = Instantiate(auctionDialogPrefab);
+        dialog.GetComponent<PhotonView>().viewID = viewID;
+        dialog.GetComponent<NAuctionDialog>().Initialize(callingPlayer, property);
+    }
+
+
+    /*
     public void CallInJailDialog(NPlayer player)
     {
         Instantiate(inJailDialogPrefab);
     }
     */
 
+
+    // Select Tradee Dialog in Trade
     public void CallSelectTradeeDialog(PhotonPlayer caller)
     {
         GameObject dialog = Instantiate(selectTradeeDialogPrefab);
@@ -72,6 +95,7 @@ public class NDialogManager : Photon.MonoBehaviour {
     }
 
 
+    // Trade Dialog
     public void CallTradingDialog(PhotonPlayer trader, PhotonPlayer tradee)
     {
         photonView.RPC("RPC_CallTradingDialog", PhotonTargets.MasterClient, trader, tradee);
@@ -102,6 +126,7 @@ public class NDialogManager : Photon.MonoBehaviour {
         dialogObj.GetComponentInChildren<PhotonView>().viewID = viewID;
         dialogObj.GetComponentInChildren<NTradingDialog>().Initialize(trader, tradee, mode);
     }
+
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

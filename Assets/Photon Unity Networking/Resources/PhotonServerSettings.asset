@@ -81,4 +81,11 @@ MonoBehaviour:
   - RPC_SetCanStart
   - RPC_RollDiceManual
   - RPC_ReceiveDiceManual
+  - RPC_CallAuctionDialog
+  - RPC_CreateAuctionDialog
+  - RPC_SendCanBid
+  - RPC_ReceiveBid
+  - RPC_UpdateGiveUpBid
+  - RPC_UpdateNewBid
+  - RPC_UpdateNumBidder
   DisableAutoOpenWizard: 1
