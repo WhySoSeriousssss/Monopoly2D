@@ -146,20 +146,20 @@ public class NPlayerManager : Photon.PunBehaviour {
 
     public void PurchaseProperty(NProperty property)
     {
-        photonView.RPC("RPC_PurchaseProperty", PhotonTargets.MasterClient, property.PropertyID, PhotonNetwork.player);
+        photonView.RPC("RPC_PurchaseProperty", PhotonTargets.MasterClient, property.PropertyID, property.PurchasePrice, PhotonNetwork.player);
     }
-
+    
     [PunRPC]
-    public void RPC_PurchaseProperty(int propertyID, PhotonPlayer caller)
+    public void RPC_PurchaseProperty(int propertyID, int purchasePrice, PhotonPlayer caller)
     {
         if (!PhotonNetwork.isMasterClient)
             return;
         NPlayer player = FindGamePlayer(caller);
         NProperty property = NBoardManager.instance.Properties[propertyID];
 
-        if (player.CurrentMoney > property.PurchasePrice)
+        if (player.CurrentMoney >= purchasePrice)
         {
-            player.ChangeMoney(-property.PurchasePrice);
+            player.ChangeMoney(-purchasePrice);
             player.ObtainProperty(property);
             property.SoldTo(player);
             photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propertyID, caller);

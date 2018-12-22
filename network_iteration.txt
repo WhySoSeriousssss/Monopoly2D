@@ -2,13 +2,14 @@ TODO:
 
 Implementation:
 - double dice (done)
-- auction
+- auction (done)
 - spin wheel (done)
 - chest & chance
 - jail
-- parking lot
+- parking lot (done)
 - railway travel
 - pass go (done)
-
+- broke
 
 Fix:
+- parking fee text display

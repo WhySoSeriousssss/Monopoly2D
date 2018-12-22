@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class NAuctionDialog : NDialog {
 
     [SerializeField]
-    private InputField bidPriceText;
+    private InputField bidInput;
     [SerializeField]
     private Text bidInfoText;
     [SerializeField]
@@ -25,6 +25,7 @@ public class NAuctionDialog : NDialog {
     int _currentBid;
 
     NProperty _property;
+    bool _isCaller;
 
 
     public void Initialize(NPlayer caller, NProperty property)
@@ -45,10 +46,11 @@ public class NAuctionDialog : NDialog {
             railroadCard.GetComponent<NDetailedRailroadCard>().Initialize(property as NRailroad);
         }
 
+        _isCaller = (caller == NPlayer.thisPlayer);
         _currentBid = property.PurchasePrice;
         _property = property;
         bidInfoText.text = caller.photonView.owner.NickName + " has started the auction\n";
-        bidPriceText.text = _currentBid.ToString();
+        bidInput.text = _currentBid.ToString();
 
         NAuctionManager.instance.Initialize(caller, property, this);
     }
@@ -69,11 +71,11 @@ public class NAuctionDialog : NDialog {
 
     public void OnBidButtonClicked()
     {
-        int newBidPrice = int.Parse(bidPriceText.text);
-        if (newBidPrice >= (_currentBid + 10))
+        int newBid = int.Parse(bidInput.text);
+        if (newBid >= (_currentBid + 10) || (newBid >= _currentBid && _isCaller))
         {
             warningMessageText.text = "";
-            NAuctionManager.instance.SendBid(true, newBidPrice);
+            NAuctionManager.instance.SendBid(true, newBid);
             NAuctionManager.instance.FinishBid = true;
         }
         else
@@ -88,6 +90,15 @@ public class NAuctionDialog : NDialog {
         NAuctionManager.instance.SendBid(false, 0);
         NAuctionManager.instance.FinishBid = true;
     }
+
+
+    public void OnBidInputValueChanged(string newValue)
+    {
+        int num = int.Parse(newValue);
+        num = Mathf.Clamp(num, 0, NPlayer.thisPlayer.CurrentMoney);
+        bidInput.text = num.ToString();
+    }
+
 
     public void AuctionFinish()
     {
@@ -104,11 +115,11 @@ public class NAuctionDialog : NDialog {
     }
 
     [PunRPC]
-    public void RPC_UpdateNewBid(string playerName, int bidPrice)
+    public void RPC_UpdateNewBid(string playerName, int bid)
     {
-        _currentBid = bidPrice;
-        bidInfoText.text += playerName + " Bidded $" + bidPrice.ToString() + "\n";
-        bidPriceText.text = bidPrice.ToString();
+        _currentBid = bid;
+        bidInfoText.text += playerName + " Bidded $" + bid.ToString() + "\n";
+        bidInput.text = bid.ToString();
 
         bidInfoText.rectTransform.offsetMin = new Vector2(bidInfoText.rectTransform.offsetMin.x, bidInfoText.rectTransform.offsetMin.y - 30);
     }
@@ -131,14 +142,16 @@ public class NAuctionDialog : NDialog {
 
 
 
-    public void AddTenButtonOnClicked()
+    public void OnAddTenButtonClicked()
     {
-        bidPriceText.text = (int.Parse(bidPriceText.text) + 10).ToString();
+        if (int.Parse(bidInput.text) + 10 <= NPlayer.thisPlayer.CurrentMoney)
+            bidInput.text = (int.Parse(bidInput.text) + 10).ToString();
     }
 
-    public void AddAHundredButtonOnClicked()
+    public void OnAddAHundredButtonClicked()
     {
-        bidPriceText.text = (int.Parse(bidPriceText.text) + 100).ToString();
+        if (int.Parse(bidInput.text) + 100 <= NPlayer.thisPlayer.CurrentMoney)
+            bidInput.text = (int.Parse(bidInput.text) + 100).ToString();
     }
 
 

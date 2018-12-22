@@ -88,4 +88,5 @@ MonoBehaviour:
   - RPC_UpdateGiveUpBid
   - RPC_UpdateNewBid
   - RPC_UpdateNumBidder
+  - RPC_UpdateAuctionFinished
   DisableAutoOpenWizard: 1

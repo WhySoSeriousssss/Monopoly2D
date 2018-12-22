@@ -23,9 +23,9 @@ public class NAuctionManager : Photon.MonoBehaviour {
     int _currentBid;
 
     // regular client side
-    int _numBidders;
 
     bool _canBid;
+    bool _auctionFinished = false;
 
     private bool _finishBid;
     public bool FinishBid { get { return _finishBid; } set { _finishBid = value; } }
@@ -42,18 +42,25 @@ public class NAuctionManager : Photon.MonoBehaviour {
         _property = property;
         _currentBidder = startingPlayer.Order;
         _currentBid = property.PurchasePrice;
+        _auctionFinished = false;
         _auctionDialog = auctionDialog;
-        photonView.RPC("RPC_UpdateNumBidder", PhotonTargets.All, _bidders.Count);
 
         StartCoroutine(Bidding());
     }
 
     IEnumerator Bidding()
     {
-        while (_numBidders > 1)
+        while (true)
         {
             if (PhotonNetwork.isMasterClient)
             {
+                if (_bidders.Count == 1)
+                {
+                    NPlayerManager.instance.RPC_PurchaseProperty(_property.PropertyID, _currentBid, _bidders[0].photonView.owner);
+                    photonView.RPC("RPC_UpdateAuctionFinished", PhotonTargets.All);
+                    break;
+                }
+
                 photonView.RPC("RPC_SendCanBid", _bidders[_currentBidder].photonView.owner);
 
                 if(_currentBidder == NPlayer.thisPlayer.Order)
@@ -81,15 +88,17 @@ public class NAuctionManager : Photon.MonoBehaviour {
                 {
                     _auctionDialog.UpdateGiveUpBid(_bidders[_currentBidder].photonView.owner.NickName);
                     _bidders.Remove(_bidders[_currentBidder]);
-                    photonView.RPC("RPC_UpdateNumBidder", PhotonTargets.All, _bidders.Count);
+
                     if (_currentBidder == _bidders.Count)
                         _currentBidder = 0;
                 }
             }
             else
             {
-                while (!_canBid)
+                while (!_canBid && !_auctionFinished)
                     yield return null;
+                if (_auctionFinished)
+                    break;
                 _auctionDialog.StartBid();
 
                 while (!_finishBid)
@@ -99,9 +108,8 @@ public class NAuctionManager : Photon.MonoBehaviour {
                 _canBid = false;
                 _finishBid = false;
             }
-
         }
-        //LocPlayerController.instance.WonAuction(playersInAuction[0], property, currentBiddingPrice);
+            
         _auctionDialog.AuctionFinish();
     }
 
@@ -121,7 +129,6 @@ public class NAuctionManager : Photon.MonoBehaviour {
         _bidOrGiveup = bidOrNot;
         if (_bidOrGiveup)
             _currentBid = newBid;
-        Debug.Log("Bid received::$" + newBid);
     }
 
     // Called by MasterClient to others to set up the canBid flag
@@ -131,12 +138,14 @@ public class NAuctionManager : Photon.MonoBehaviour {
         _canBid = true;
     }
 
-
+    // Called by MasterClient to others to set up the auctionFinished flag
     [PunRPC]
-    public void RPC_UpdateNumBidder(int newNum)
+    public void RPC_UpdateAuctionFinished()
     {
-        _numBidders = newNum;
+        _auctionFinished = true;
     }
+
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
