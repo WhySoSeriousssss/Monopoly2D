@@ -56,7 +56,7 @@ public class NAuctionManager : Photon.MonoBehaviour {
             {
                 if (_bidders.Count == 1)
                 {
-                    NPlayerManager.instance.RPC_PurchaseProperty(_property.PropertyID, _currentBid, _bidders[0].photonView.owner);
+                    NPlayerController.instance.RPC_PurchaseProperty(_property.PropertyID, _currentBid, _bidders[0].photonView.owner);
                     photonView.RPC("RPC_UpdateAuctionFinished", PhotonTargets.All);
                     break;
                 }

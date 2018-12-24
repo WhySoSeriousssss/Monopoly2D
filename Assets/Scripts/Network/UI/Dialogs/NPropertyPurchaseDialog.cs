@@ -48,13 +48,13 @@ public class NPropertyPurchaseDialog : NDialog {
     
     public void OnBuyButtonClicked()
     {
-        NPlayerManager.instance.PurchaseProperty(_property);
+        NPlayerController.instance.PurchaseProperty(_property);
         GetComponent<PhotonView>().RPC("RPC_DestroyDialog", PhotonTargets.All);
     }
 
     public void OnAuctionButtonClicked()
     {
-        NPlayerManager.instance.AuctionProperty(_property);
+        NPlayerController.instance.AuctionProperty(_property);
         GetComponent<PhotonView>().RPC("RPC_DestroyDialog", PhotonTargets.All);
     }
 

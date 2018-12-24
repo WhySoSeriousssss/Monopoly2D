@@ -81,8 +81,8 @@ public class NTradingDialog : NDialog {
         }
 
 
-        playerA = NPlayerManager.instance.FindGamePlayer(trader);
-        playerB = NPlayerManager.instance.FindGamePlayer(tradee);
+        playerA = NPlayerController.FindGamePlayer(trader);
+        playerB = NPlayerController.FindGamePlayer(tradee);
         
         // set name texts
         playerNameA.text = trader.NickName;
@@ -212,7 +212,7 @@ public class NTradingDialog : NDialog {
         int[] propertyIDs_A = propertiesPlayerAOffers.ToArray();
         int[] propertyIDs_B = propertiesPlayerBOffers.ToArray();
 
-        NPlayerManager.instance.TradeProperty(playerA.photonView.owner, playerB.photonView.owner, propertyIDs_A, propertyIDs_B, moneyPlayerAOffers, moneyPlayerBOffers);
+        NPlayerController.instance.TradeProperty(playerA.photonView.owner, playerB.photonView.owner, propertyIDs_A, propertyIDs_B, moneyPlayerAOffers, moneyPlayerBOffers);
 
         photonView.RPC("RPC_DestroyDialog", PhotonTargets.All);
     }

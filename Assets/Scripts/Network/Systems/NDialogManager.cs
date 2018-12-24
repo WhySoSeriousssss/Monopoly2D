@@ -17,7 +17,7 @@ public class NDialogManager : Photon.MonoBehaviour {
     [SerializeField]
     private GameObject propertyPurchaseDialogPrefab;
     [SerializeField]
-    private GameObject inJailDialogPrefab;
+    private GameObject jailDialogPrefab;
     [SerializeField]
     private GameObject selectTradeeDialogPrefab;
     [SerializeField]
@@ -70,7 +70,7 @@ public class NDialogManager : Photon.MonoBehaviour {
     [PunRPC]
     public void RPC_CreateAuctionDialog(PhotonPlayer caller, int propertyID, int viewID)
     {
-        NPlayer callingPlayer = NPlayerManager.instance.FindGamePlayer(caller);
+        NPlayer callingPlayer = NPlayerController.FindGamePlayer(caller);
         NProperty property = NBoardManager.instance.FindProperty(propertyID);
 
         GameObject dialog = Instantiate(auctionDialogPrefab);
@@ -79,12 +79,13 @@ public class NDialogManager : Photon.MonoBehaviour {
     }
 
 
-    /*
-    public void CallInJailDialog(NPlayer player)
+    
+    // Jail Dialog
+    public void CallJailDialog()
     {
-        Instantiate(inJailDialogPrefab);
+        Instantiate(jailDialogPrefab);
     }
-    */
+    
 
 
     // Select Tradee Dialog in Trade

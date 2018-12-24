@@ -89,4 +89,10 @@ MonoBehaviour:
   - RPC_UpdateNewBid
   - RPC_UpdateNumBidder
   - RPC_UpdateAuctionFinished
+  - RPC_AddProperty
+  - RPC_GoJail
+  - RPC_RemoveProperty
+  - RPC_GetOutOfJail
+  - RPC_BailToGetOut
+  - RPC_RollDiceToGetOut
   DisableAutoOpenWizard: 1

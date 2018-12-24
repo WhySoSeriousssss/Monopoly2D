@@ -22,6 +22,12 @@ public class NPlayer : Photon.MonoBehaviour {
     private bool _isMoving = false;
     public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
 
+    private bool _isInJail = false;
+    public bool IsInJail { get { return _isInJail; } set { _isInJail = value; } }
+
+    private int _turnsInJail = 0;
+    public int TurnsInJail { get { return _turnsInJail; } set { _turnsInJail = value; } }
+
     private int _currentMoney = 0;
     public int CurrentMoney { get { return _currentMoney; } }
 
@@ -98,13 +104,49 @@ public class NPlayer : Photon.MonoBehaviour {
         }
         // Pass GO
         if (_currentPosition == oldPos + steps - numSpaces)
-            NPlayerManager.instance.PassGo(this);
+            NPlayerController.instance.PassGo(this);
 
         NSpace space = allSpaces[_currentPosition];
         space.StepOn(this);
 
         _isMoving = false;
     }
+
+
+    public void GoJail()
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        photonView.RPC("RPC_GoJail", PhotonTargets.All);
+    }
+
+    [PunRPC]
+    public void RPC_GoJail()
+    {
+        _isInJail = true;
+
+        NJail jail = FindObjectOfType<NJail>();
+        NGoJail goJail = FindObjectOfType<NGoJail>();
+        Vector3 translate = jail.transform.position - goJail.transform.position;
+        transform.Translate(translate);
+        transform.position = new Vector3(transform.position.x, transform.position.y, -1);
+        _currentPosition = jail.Position;
+    }
+
+    public void GetOutOfJail()
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        photonView.RPC("RPC_GetOutOfJail", PhotonTargets.All);
+    }
+
+    [PunRPC]
+    public void RPC_GetOutOfJail()
+    {
+        _isInJail = false;
+        _turnsInJail = 0;
+    }
+
 
 
     public void SetOrder(int newOrder)
@@ -134,27 +176,27 @@ public class NPlayer : Photon.MonoBehaviour {
     }
 
 
-    public void ObtainProperty(NProperty property)
+    public void AddProperty(NProperty property)
     {
         if (!PhotonNetwork.isMasterClient)
             return;
-        photonView.RPC("RPC_ObtainProperty", PhotonTargets.All, property.PropertyID);
+        photonView.RPC("RPC_AddProperty", PhotonTargets.All, property.PropertyID);
     }
     [PunRPC]
-    public void RPC_ObtainProperty(int propertyID)
+    public void RPC_AddProperty(int propertyID)
     {
         NProperty property = allProperties[propertyID];
         _properties.Add(property);
     }
 
-    public void LoseProperty(NProperty property)
+    public void RemoveProperty(NProperty property)
     {
         if (!PhotonNetwork.isMasterClient)
             return;
-        photonView.RPC("RPC_LoseProperty", PhotonTargets.All, property.PropertyID);
+        photonView.RPC("RPC_RemoveProperty", PhotonTargets.All, property.PropertyID);
     }
     [PunRPC]
-    public void RPC_LoseProperty(int propertyID)
+    public void RPC_RemoveProperty(int propertyID)
     {
         NProperty property = allProperties[propertyID];
         _properties.Remove(property);

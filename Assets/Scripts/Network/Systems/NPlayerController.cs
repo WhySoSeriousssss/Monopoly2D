@@ -1,54 +1,32 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class NPlayerManager : Photon.PunBehaviour {
+public class NPlayerController : Photon.PunBehaviour {
 
     #region Singleton
-    public static NPlayerManager instance;
+    public static NPlayerController instance;
     private void Awake()
     {
         if (instance != null)
-            Debug.Log("Multiple NPlayerManager. Something went wrong");
+            Debug.Log("Multiple NPlayerController. Something went wrong");
         instance = this;
     }
     #endregion
 
-    List<NPlayer> _gamePlayers = new List<NPlayer>();
+    static List<NPlayer> _gamePlayers = new List<NPlayer>();
 
     private void Start()
     {
         _gamePlayers = new List<NPlayer>(FindObjectsOfType<NPlayer>());
     }
 
-    public NPlayer FindGamePlayer(PhotonPlayer player)
+    public static NPlayer FindGamePlayer(PhotonPlayer player)
     {
         return _gamePlayers.Find(x => player == x.photonView.owner);
     }
 
-    /*
-    public void StartTurn()
-    {
-        photonView.RPC("RPC_ChangeFinishStatus", PhotonTargets.MasterClient, false, PhotonNetwork.player);
-    }
-    
-    [PunRPC]
-    public void RPC_ChangeFinishStatus(bool hasFinished, PhotonPlayer caller)
-    {
-        if (!PhotonNetwork.isMasterClient)
-            return;
-        FindGamePlayer(caller).HasFinished = hasFinished;
-        //photonView.RPC("RPC_ReceiveFinishStatus", PhotonTargets.All, hasFinished, caller);
-    }
-    [PunRPC]
-    public void RPC_ReceiveFinishStatus(bool hasFinished, PhotonPlayer caller)
-    {
-        NPlayer player = FindGamePlayer(caller);
-        player.HasFinished = hasFinished;
-    }
-    */
 
+    // roll dice
     public void RollDice()
     {
         photonView.RPC("RPC_RollDice", PhotonTargets.MasterClient, PhotonNetwork.player);
@@ -59,11 +37,11 @@ public class NPlayerManager : Photon.PunBehaviour {
     {
         if (!PhotonNetwork.isMasterClient)
             return;
-        int dice1 = UnityEngine.Random.Range(1, 7);
-        int dice2 = UnityEngine.Random.Range(1, 7);
+        int dice1 = Random.Range(1, 7);
+        int dice2 = Random.Range(1, 7);
 
         if (dice1 == dice2)
-            NGameplay.instance.additionalDice = true;
+            NGameplay.instance.AdditionalDice = true;
         photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, dice1, dice2, caller);
     }
 
@@ -86,7 +64,7 @@ public class NPlayerManager : Photon.PunBehaviour {
         if (!PhotonNetwork.isMasterClient)
             return;
         if (additionalRoll)
-            NGameplay.instance.additionalDice = true;
+            NGameplay.instance.AdditionalDice = true;
         photonView.RPC("RPC_ReceiveDiceManual", PhotonTargets.All, dice, caller);
     }
 
@@ -126,8 +104,8 @@ public class NPlayerManager : Photon.PunBehaviour {
         foreach(int propID in propB)
         {
             NProperty property = NBoardManager.instance.Properties[propID];
-            playerB.LoseProperty(property);
-            playerA.ObtainProperty(property);
+            playerB.RemoveProperty(property);
+            playerA.AddProperty(property);
             property.SoldTo(playerA);
             photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propID, trader);
         }
@@ -135,8 +113,8 @@ public class NPlayerManager : Photon.PunBehaviour {
         foreach (int propID in propA)
         {
             NProperty property = NBoardManager.instance.Properties[propID];
-            playerA.LoseProperty(property);
-            playerB.ObtainProperty(property);
+            playerA.RemoveProperty(property);
+            playerB.AddProperty(property);
             property.SoldTo(playerB);
             photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propID, tradee);
         }
@@ -160,7 +138,7 @@ public class NPlayerManager : Photon.PunBehaviour {
         if (player.CurrentMoney >= purchasePrice)
         {
             player.ChangeMoney(-purchasePrice);
-            player.ObtainProperty(property);
+            player.AddProperty(property);
             property.SoldTo(player);
             photonView.RPC("RPC_SetPropertyOwnerMarker", PhotonTargets.All, propertyID, caller);
         }
@@ -288,7 +266,52 @@ public class NPlayerManager : Photon.PunBehaviour {
     }
 
 
+    // Jail    
+    public void BailToGetOut(PhotonPlayer caller)
+    {
+        photonView.RPC("RPC_BailToGetOut", PhotonTargets.MasterClient, caller);
+    }
 
+    [PunRPC]
+    public void RPC_BailToGetOut(PhotonPlayer caller)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        NPlayer player = FindGamePlayer(caller);
+        player.ChangeMoney(-100);
+        player.GetOutOfJail();
+    }
+
+    public void RollDiceToGetOut(PhotonPlayer caller)
+    {
+        photonView.RPC("RPC_RollDiceToGetOut", PhotonTargets.MasterClient, caller);
+    }
+
+    [PunRPC]
+    public void RPC_RollDiceToGetOut(PhotonPlayer caller)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        NPlayer player = FindGamePlayer(caller);
+        int dice1 = Random.Range(1, 7);
+        int dice2 = Random.Range(1, 7);
+        if (dice1 == dice2)
+        {
+            player.GetOutOfJail();
+            photonView.RPC("RPC_ReceiveDice", PhotonTargets.All, dice1, dice2, caller);
+        }
+        else
+        {
+            player.TurnsInJail++;
+        }
+        
+    }
+
+    public void UseCardToRelease()
+    {
+        /* TODO */
+    }
+    
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         

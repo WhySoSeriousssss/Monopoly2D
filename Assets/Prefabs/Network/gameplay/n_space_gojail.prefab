@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61672611610733376}
   - component: {fileID: 114466731528801252}
   m_Layer: 0
-  m_Name: n_space_gotojail
+  m_Name: n_space_gojail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,12 +4,15 @@ Implementation:
 - double dice (done)
 - auction (done)
 - spin wheel (done)
-- chest & chance
+- chest & chance (done)
 - jail
 - parking lot (done)
 - railway travel
 - pass go (done)
 - broke
+- more spin implementation
+- more chest & chance implementation
+- item system
 
 Fix:
 - parking fee text display

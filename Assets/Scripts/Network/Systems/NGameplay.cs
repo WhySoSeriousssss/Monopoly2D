@@ -21,7 +21,9 @@ public class NGameplay : Photon.PunBehaviour
 
     public static int currentPlayerOrder = 0;
     private bool currentPlayerFinished = false;
-    public bool additionalDice = false;
+
+    private bool _additionalDice = false;
+    public bool AdditionalDice { get { return _additionalDice; } set { _additionalDice = value; } }
 
     public static bool _isDebug = true;
 
@@ -117,21 +119,6 @@ public class NGameplay : Photon.PunBehaviour
     {
         while (true)
         {
-            /*
-            while (currentPlayerOrder != NPlayer.thisPlayer.Order)
-            {
-                yield return null;
-            }
-            NPlayerManager.instance.StartTurn();
-            OnMyTurnStartedCallback.Invoke();
-            yield return new WaitForSeconds(1);
-            while (!NPlayer.thisPlayer.HasFinished)
-            {
-                yield return null;
-            }
-            photonView.RPC("RPC_UpdateCurrentPlayerOrder", PhotonTargets.All, (currentPlayerOrder + 1) % numPlayers);
-            */
-
             if (PhotonNetwork.isMasterClient)
             {
                 photonView.RPC("RPC_SetCanStart", _players[currentPlayerOrder].photonView.owner);
@@ -150,10 +137,10 @@ public class NGameplay : Photon.PunBehaviour
                     yield return null;
                 currentPlayerFinished = false;
 
-                if (!additionalDice)
+                if (!_additionalDice)
                     currentPlayerOrder = (currentPlayerOrder + 1) % numPlayers;
                 else
-                    additionalDice = false;
+                    _additionalDice = false;
 
                 photonView.RPC("RPC_UpdateCurrentPlayerOrder", PhotonTargets.All, currentPlayerOrder);
             }

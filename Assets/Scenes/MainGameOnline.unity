@@ -687,46 +687,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 495554541}
   m_CullTransparentMesh: 0
---- !u!1 &542985548
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 542985549}
-  - component: {fileID: 542985550}
-  m_Layer: 0
-  m_Name: NetworkManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &542985549
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 542985548}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 426.85593, y: 319.36743, z: 3.625}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &542985550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 542985548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 215484d635929544791b8d4578bb3a8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &662669415
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,6 +948,16 @@ Prefab:
       value: 
       objectReference: {fileID: 1694457258985042, guid: 0afcf69d7f084b445b5b1bab5ba097d3,
         type: 2}
+    - target: {fileID: 114072532203138350, guid: 1fbe27ee81d9e2342a3f750b9356c0e5,
+        type: 2}
+      propertyPath: jailDialogPrefab
+      value: 
+      objectReference: {fileID: 1898459675463208, guid: 8d4f3ddc2eb8d054ab5d1c82ce3bc14d,
+        type: 2}
+    - target: {fileID: 1285479085034726, guid: 1fbe27ee81d9e2342a3f750b9356c0e5, type: 2}
+      propertyPath: m_Name
+      value: NetworkGamePlay
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fbe27ee81d9e2342a3f750b9356c0e5, type: 2}
   m_IsPrefabAsset: 0
@@ -1022,8 +992,9 @@ GameObject:
   - component: {fileID: 792511227}
   - component: {fileID: 783521266}
   - component: {fileID: 792511226}
+  - component: {fileID: 792511233}
   m_Layer: 0
-  m_Name: OnlineGamePlay
+  m_Name: NetworkGamePlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1054,7 +1025,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   propertyPurchaseDialogPrefab: {fileID: 1432687586410540, guid: e493633bdc8f2d94fa36ad1733ccdae4,
     type: 2}
-  inJailDialogPrefab: {fileID: 0}
+  jailDialogPrefab: {fileID: 1898459675463208, guid: 8d4f3ddc2eb8d054ab5d1c82ce3bc14d,
+    type: 2}
   selectTradeeDialogPrefab: {fileID: 1325569419269522, guid: 00d98813c2c3a434caad125a614fda32,
     type: 2}
   tradingDialogPrefab: {fileID: 1377288677382018, guid: b3a81328f816d0d4eb72a3ec3d014fca,
@@ -1114,7 +1086,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34bfb82086d9b44a842ea80ad39710c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionalDice: 0
 --- !u!114 &792511231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,8 +1129,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &792511233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 792511225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41dd2eda8875d21449253efcb9ca7ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &872094265
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,7 +2291,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1426024756
 GameObject:

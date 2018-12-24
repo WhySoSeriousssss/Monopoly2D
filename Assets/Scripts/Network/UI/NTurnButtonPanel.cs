@@ -58,7 +58,7 @@ public class NTurnButtonPanel : MonoBehaviour {
     {
         if (NGameplay.currentPlayerOrder == NPlayer.thisPlayer.Order)
         {
-            NPlayerManager.instance.RollDice();
+            NPlayerController.instance.RollDice();
 
             rollButton.gameObject.SetActive(false);
             finishButton.gameObject.SetActive(true);
@@ -81,6 +81,13 @@ public class NTurnButtonPanel : MonoBehaviour {
         {
             rollButton.gameObject.SetActive(true);
         }
+        if (NPlayer.thisPlayer.IsInJail)
+        {
+            manualDicePanel.gameObject.SetActive(false);
+            rollButton.gameObject.SetActive(false);
+            NDialogManager.instance.CallJailDialog();
+            finishButton.gameObject.SetActive(true);
+        }
     }
 
 
@@ -91,7 +98,7 @@ public class NTurnButtonPanel : MonoBehaviour {
         {
             int value = int.Parse(input.text);
             bool additinalRoll = additionalRollToggle.isOn;
-            NPlayerManager.instance.RollDiceManual(value, additinalRoll);
+            NPlayerController.instance.RollDiceManual(value, additinalRoll);
 
             manualDicePanel.gameObject.SetActive(false);
             finishButton.gameObject.SetActive(true);

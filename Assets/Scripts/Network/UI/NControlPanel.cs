@@ -116,16 +116,16 @@ public class NControlPanel : MonoBehaviour
                         switch (buttonIndex)
                         {
                             case 1:
-                                NPlayerManager.instance.UpgradeLand(land.PropertyID, PhotonNetwork.player);
+                                NPlayerController.instance.UpgradeLand(land.PropertyID, PhotonNetwork.player);
                                 break;
                             case 2:
-                                NPlayerManager.instance.MortgageProperty(land.PropertyID, PhotonNetwork.player);
+                                NPlayerController.instance.MortgageProperty(land.PropertyID, PhotonNetwork.player);
                                 break;
                             case 3:
-                                NPlayerManager.instance.DegradeLand(land.PropertyID, PhotonNetwork.player);
+                                NPlayerController.instance.DegradeLand(land.PropertyID, PhotonNetwork.player);
                                 break;
                             case 4:
-                                NPlayerManager.instance.RedeemProperty(land.PropertyID, PhotonNetwork.player);
+                                NPlayerController.instance.RedeemProperty(land.PropertyID, PhotonNetwork.player);
                                 break;
 
                         }

@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 public class NChance : NSpace {
 
-
+    public override void StepOn(NPlayer player)
+    {
+        if (!PhotonNetwork.isMasterClient)
+            return;
+        NChestChanceManager.instance.ExecuteRandomChance(player);
+    }
 }
