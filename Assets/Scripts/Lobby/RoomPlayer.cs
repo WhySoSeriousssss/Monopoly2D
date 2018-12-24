@@ -99,16 +99,6 @@ public class RoomPlayer : Photon.PunBehaviour {
         }
     }
 
-    /*
-    public void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        //Debug.Log(photonView.isMine);
-        //if (photonView.isMine)
-        //{
-        //    NPlayer.AssignLocalPlayer(_gamePlayer);
-        //}
-    }
-    */
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

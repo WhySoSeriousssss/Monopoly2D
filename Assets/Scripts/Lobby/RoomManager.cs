@@ -31,6 +31,8 @@ public class RoomManager : Photon.PunBehaviour {
     // called when you join the room and the RoomInterface is activated.
     private void OnEnable()
     {
+        if (!PhotonNetwork.inRoom)
+            return;
         roomPlayers = new List<RoomPlayer>();
         roomNameText.text = PhotonNetwork.room.Name;
         if (PhotonNetwork.isMasterClient)
@@ -48,7 +50,6 @@ public class RoomManager : Photon.PunBehaviour {
         for (int i = 0;  i < slots.Length; i++)
         {
             Destroy(slots[i].gameObject);
-            //Destroy(roomPlayers[i].gameObject);
         }
         roomPlayers = null;
     }
@@ -71,7 +72,7 @@ public class RoomManager : Photon.PunBehaviour {
 
     public void CreateLocalRoomPlayer()
     {
-        GameObject roomPlayerObj = PhotonNetwork.Instantiate("RoomPlayer", Vector3.zero, Quaternion.identity, 0);
+        PhotonNetwork.Instantiate("RoomPlayer", Vector3.zero, Quaternion.identity, 0);
     }
 
     public void CreatePlayerSlot(RoomPlayer newRoomPlayer, bool isLocal)
@@ -103,9 +104,21 @@ public class RoomManager : Photon.PunBehaviour {
 
     public void OnStartButtonClicked()
     {
-        PhotonNetwork.LoadLevel("MainGameOnline");
-        PhotonNetwork.room.IsOpen = false;
-        PhotonNetwork.room.IsVisible = false;
+        bool readyToStart = true;
+        foreach (PhotonPlayer photonPlayer in PhotonNetwork.playerList)
+        {
+            if (!(bool)photonPlayer.CustomProperties["IsReady"])
+            {
+                Debug.Log("Player " + photonPlayer.NickName + " not ready.");
+                readyToStart = false;
+            }
+        }
+        if (readyToStart)
+        {
+            PhotonNetwork.LoadLevel("MainGameOnline");
+            PhotonNetwork.room.IsOpen = false;
+            PhotonNetwork.room.IsVisible = false;
+        }
     }
 
 

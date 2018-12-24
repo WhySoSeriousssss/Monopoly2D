@@ -13,7 +13,6 @@ public class AuctionDialog : MonoBehaviour {
     
     int currentBidPrice;
 
-    Property property;
 
 	public void Initialize(Player callingPlayer, Property propertyToAuction)
     {
@@ -34,7 +33,6 @@ public class AuctionDialog : MonoBehaviour {
         }
 
         currentBidPrice = propertyToAuction.PurchasePrice;
-        property = propertyToAuction;
         bidInfoText.text = callingPlayer.PlayerName + " has started the auction\n";
         bidPriceText.text = currentBidPrice.ToString();
     }

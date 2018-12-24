@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LocPlayerController : MonoBehaviour {
 
@@ -15,10 +13,6 @@ public class LocPlayerController : MonoBehaviour {
     #endregion
 
 
-    List<Space> spaces;
-    int numSpaces;
-
-
     Player currentPlayer;
 
     int dice1;
@@ -29,9 +23,6 @@ public class LocPlayerController : MonoBehaviour {
 
     private void Start()
     {
-        spaces = BoardManager.instance.spaces;
-        numSpaces = BoardManager.numSpaces;
-
         LocGameManager.instance.OnCurrentPlayerChangedCallBack += SetCurrentPlayer;
     }
 

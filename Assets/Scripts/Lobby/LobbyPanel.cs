@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
 public class LobbyPanel : MonoBehaviour {

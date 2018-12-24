@@ -270,6 +270,7 @@ public class NPlayerController : Photon.PunBehaviour {
     public void BailToGetOut(PhotonPlayer caller)
     {
         photonView.RPC("RPC_BailToGetOut", PhotonTargets.MasterClient, caller);
+        NTurnButtonPanel.instance.CheckRollButton();
     }
 
     [PunRPC]

@@ -73,6 +73,19 @@ public class NTurnButtonPanel : MonoBehaviour {
 
     public void OnMyTurnStarted()
     {
+        CheckRollButton();
+        if (NPlayer.thisPlayer.IsInJail)
+        {
+            manualDicePanel.gameObject.SetActive(false);
+            rollButton.gameObject.SetActive(false);
+            NDialogManager.instance.CallJailDialog();
+            finishButton.gameObject.SetActive(true);
+        }
+    }
+
+
+    public void CheckRollButton()
+    {
         if (NGameplay._isDebug)
         {
             manualDicePanel.gameObject.SetActive(true);
@@ -80,13 +93,6 @@ public class NTurnButtonPanel : MonoBehaviour {
         else
         {
             rollButton.gameObject.SetActive(true);
-        }
-        if (NPlayer.thisPlayer.IsInJail)
-        {
-            manualDicePanel.gameObject.SetActive(false);
-            rollButton.gameObject.SetActive(false);
-            NDialogManager.instance.CallJailDialog();
-            finishButton.gameObject.SetActive(true);
         }
     }
 

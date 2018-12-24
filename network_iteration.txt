@@ -5,7 +5,7 @@ Implementation:
 - auction (done)
 - spin wheel (done)
 - chest & chance (done)
-- jail
+- jail (done)
 - parking lot (done)
 - railway travel
 - pass go (done)

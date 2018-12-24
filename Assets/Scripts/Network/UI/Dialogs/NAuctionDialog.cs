@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class NAuctionDialog : NDialog {
@@ -24,7 +22,6 @@ public class NAuctionDialog : NDialog {
 
     int _currentBid;
 
-    NProperty _property;
     bool _isCaller;
 
 
@@ -48,7 +45,6 @@ public class NAuctionDialog : NDialog {
 
         _isCaller = (caller == NPlayer.thisPlayer);
         _currentBid = property.PurchasePrice;
-        _property = property;
         bidInfoText.text = caller.photonView.owner.NickName + " has started the auction\n";
         bidInput.text = _currentBid.ToString();
 

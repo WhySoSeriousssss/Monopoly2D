@@ -1,15 +1,13 @@
 ﻿
-using UnityEngine;
-
 public class NParking : NSpace {
 
     int totalFee = 0;
-    TextMesh text;
+    // TextMesh text;
 
     public void ReceiveFee(int amount)
     {
         totalFee += amount;
-        text.text = "$" + amount.ToString();
+        // text.text = "$" + amount.ToString();
     }
 
 
@@ -19,7 +17,7 @@ public class NParking : NSpace {
             return;
         player.ChangeMoney(totalFee);
         totalFee = 0;
-        text.text = "";
+        // text.text = "";
     }
 
 }
