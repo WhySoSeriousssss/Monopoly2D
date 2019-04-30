@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class LobbyPanel : MonoBehaviour {
 
@@ -22,6 +24,17 @@ public class LobbyPanel : MonoBehaviour {
     
     RoomInfo currentRoomInfo;
 
+    // refresh button rotation animation
+    private float refreshRotationTime = 0.5f;
+    private float rotationTimeElasped = 0f;
+    [SerializeField]
+    private Image refreshButtonImg;
+
+
+    public void OnBackButtonClicked()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 
     public void OnCreateButtonClicked()
     {
@@ -32,6 +45,7 @@ public class LobbyPanel : MonoBehaviour {
     {
         if (currentRoomInfo != null)
         {
+
             LobbyManager.instance.JoinRoom(currentRoomInfo.Name);
             currentRoomInfo = null;
         }
@@ -39,8 +53,21 @@ public class LobbyPanel : MonoBehaviour {
 
     public void OnRefreshButtonClicked()
     {
+        StartCoroutine(RefreshButtonRotate());
         LobbyManager.instance.ListRooms();
     }
+
+    IEnumerator RefreshButtonRotate()
+    {
+        while(rotationTimeElasped <= refreshRotationTime)
+        {
+            refreshButtonImg.transform.Rotate(0, 0, -Time.deltaTime / refreshRotationTime * 180);
+            rotationTimeElasped += Time.deltaTime;
+            yield return null;
+        }
+        rotationTimeElasped = 0;
+    }
+
 
     public void NewRoomSelected(RoomInfo newRoomInfo)
     {

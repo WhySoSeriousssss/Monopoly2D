@@ -84,4 +84,9 @@ public class LocalGameSettingPanel : MonoBehaviour {
 
         Destroy(gameObject);
     }
+
+    public void CloseButtonOnClicked()
+    {
+        Destroy(gameObject);
+    }
 }
