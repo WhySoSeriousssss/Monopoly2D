@@ -127,5 +127,4 @@ public class RoomManager : Photon.PunBehaviour {
         LobbyManager.instance.LeaveRoom();
     }
 
-
 }

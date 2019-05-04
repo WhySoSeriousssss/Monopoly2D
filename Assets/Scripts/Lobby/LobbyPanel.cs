@@ -21,7 +21,9 @@ public class LobbyPanel : MonoBehaviour {
     private Transform canvas;
     [SerializeField]
     private InputField playerNameInput;
-    
+    [SerializeField]
+    private Text warningMsgText;
+
     RoomInfo currentRoomInfo;
 
     // refresh button rotation animation
@@ -38,14 +40,25 @@ public class LobbyPanel : MonoBehaviour {
 
     public void OnCreateButtonClicked()
     {
+        if (PhotonNetwork.player.NickName == "")
+        {
+            warningMsgText.text = "Please enter your player name first!";
+            return;
+        }
+        warningMsgText.text = "";
         Instantiate(createRoomDialogPrefab, canvas, false);
     }
 
     public void OnJoinButtonClicked()
-    {
+    { 
         if (currentRoomInfo != null)
         {
-
+            if (PhotonNetwork.player.NickName == "")
+            {
+                warningMsgText.text = "Please enter your player name first!";
+                return;
+            }
+            warningMsgText.text = "";
             LobbyManager.instance.JoinRoom(currentRoomInfo.Name);
             currentRoomInfo = null;
         }

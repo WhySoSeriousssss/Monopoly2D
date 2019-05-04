@@ -9,9 +9,11 @@ public class CreateRoomDialog : MonoBehaviour {
     private Dropdown numPlayersDropDown;
     [SerializeField]
     private Dropdown initialMoneyDropDown;
+    [SerializeField]
+    private Text warningMsgLabel;
 
 
-	public void OnCreateButtonOnClicked()
+    public void OnCreateButtonOnClicked()
     {
         string roomName = roomNameInput.text;
         int numPlayers = int.Parse(numPlayersDropDown.captionText.text);
@@ -19,9 +21,10 @@ public class CreateRoomDialog : MonoBehaviour {
 
         if (roomName == "")
         {
-            Debug.Log("@ CreateRoomDialog::OnCreateButtonOnClicked():RoomName cannot be empty");
+            warningMsgLabel.text = "Room name cannot be empty!";
             return;
         }
+        warningMsgLabel.text = "";
         LobbyManager.instance.CreateRoom(roomName, (byte)numPlayers, initialMoney);
         Destroy(gameObject);
     }

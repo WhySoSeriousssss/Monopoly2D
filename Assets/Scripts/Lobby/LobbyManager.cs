@@ -43,7 +43,7 @@ public class LobbyManager : Photon.PunBehaviour{
     {
         //Debug.Log("@ LobbyManager::OnConnectedToMaster");
         PhotonNetwork.JoinLobby(TypedLobby.Default);
-        ChangePlayerName("New Player");
+        //ChangePlayerName("New Player");
     }
 
     public override void OnJoinedLobby()
